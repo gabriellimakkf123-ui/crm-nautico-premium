@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultor Náutico Gabriel | CRM Premium</title>
+  <meta name="description" content="CRM Náutico Premium do Consultor Gabriel Lima. Gestão executiva de barcos, jet skis, quadriciclos e UTVs.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Chart.js for premium smooth charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <!-- Golden Logo Anchor Matching reference image -->
+        <svg class="logo-anchor" viewBox="0 0 100 100">
+          <!-- External decorative circle -->
+          <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2 4"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <!-- Anchor silhouette -->
+          <path d="M50,15 L50,75 M35,45 C35,65 65,65 65,45 M50,85 C25,85 20,55 20,50 L24,50 C24,53 28,78 50,78 C72,78 76,53 76,50 L80,50 C80,55 75,85 50,85" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          <!-- Stock (horizontal bar) -->
+          <rect x="35" y="28" width="30" height="6" rx="3" fill="currentColor"/>
+          <!-- Ring on top -->
+          <circle cx="50" cy="18" r="6" fill="none" stroke="currentColor" stroke-width="3"/>
+          <!-- Golden Stars -->
+          <path d="M50,42 L52,47 L57,47 L53,50 L55,55 L50,52 L45,55 L47,50 L43,47 L48,47 Z" fill="currentColor"/>
+          <!-- Left/Right decorative wings -->
+          <path d="M12,45 Q20,38 30,45" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M88,45 Q80,38 70,45" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <span class="logo-title">Consultor Náutico</span>
+        <span class="logo-subtitle">Gabriel</span>
+      </div>
+      
+      <!-- MENU ITEMS -->
+      <ul class="sidebar-menu">
+        <li class="menu-item active" data-tab="dashboard" id="menu-dashboard">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          Dashboard
+        </li>
+        <li class="menu-item" data-tab="clientes" id="menu-clientes">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 8 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Clientes e Leads
+        </li>
+        <li class="menu-item" data-tab="funil" id="menu-funil">
+          <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+          Funil Comercial
+        </li>
+        <li class="menu-item" data-tab="followups" id="menu-followups">
+          <svg viewBox="0 0 24 24"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12.5 8H11v6l4.75 2.85.75-1.23-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg>
+          Follow-ups
+        </li>
+        <li class="menu-item" data-tab="produtos" id="menu-produtos">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+          Produtos
+        </li>
+        <li class="menu-item" data-tab="vendas" id="menu-vendas">
+          <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91v5.13h2V9L12 3z"/></svg>
+          Vendas e Comissões
+        </li>
+        <li class="menu-item" data-tab="scripts" id="menu-scripts">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+          Scripts Comerciais
+        </li>
+        <li class="menu-item" data-tab="relatorios" id="menu-relatorios">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+          Relatórios
+        </li>
+        <li class="menu-item" data-tab="agenda" id="menu-agenda">
+          <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+          Agenda
+        </li>
+        <li class="menu-item" data-tab="configuracoes" id="menu-configuracoes">
+          <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+          Configurações
+        </li>
+      </ul>
+      
+      <!-- PROFILE BOTTOM CARD -->
+      <div class="user-profile">
+        <div class="user-avatar-container">
+          <!-- Custom Premium Captain/Skipper silhouette badge in gold gradient -->
+          <svg class="user-avatar" id="sidebar-avatar-svg" viewBox="0 0 100 100" style="background: linear-gradient(135deg, var(--gold-primary) 0%, #a67f3c 100%);">
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fff" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#000" stop-opacity="0.2"/>
+              </linearGradient>
+            </defs>
+            <rect width="100" height="100" fill="url(#goldGrad)"/>
+            <!-- Captain silhouette -->
+            <path d="M50,22 C59,22 66,28 66,37 C66,45 61,48 57,51 C55,52.5 54,54 54,56 L54,59 L46,59 L46,56 C46,54 45,52.5 43,51 C39,48 34,45 34,37 C34,28 41,22 50,22 Z" fill="#0D2038"/>
+            <!-- Captain's Hat -->
+            <path d="M30,26 Q50,14 70,26 L73,31 Q50,23 27,31 Z" fill="#F5F7FA"/>
+            <path d="M32,28 L68,28 L64,31 L36,31 Z" fill="#D4B06A"/>
+            <!-- Small Anchor on hat -->
+            <circle cx="50" cy="24" r="1.5" fill="#0D2038"/>
+            <path d="M50,25.5 L50,28 M48,27 L52,27" stroke="#0D2038" stroke-width="0.8"/>
+            <!-- Shoulders/Coat -->
+            <path d="M22,78 C22,64 34,62 42,62 L58,62 C66,62 78,64 78,78 L78,85 L22,85 Z" fill="#0D2038"/>
+            <!-- Gold lapel -->
+            <path d="M38,62 L45,74 L42,85 L32,67 Z" fill="#D4B06A"/>
+            <path d="M62,62 L55,74 L58,85 L68,67 Z" fill="#D4B06A"/>
+          </svg>
+          <img class="user-avatar" id="sidebar-avatar-img" src="" alt="Gabriel Lima" style="display:none;">
+          <div class="user-status-dot"></div>
+        </div>
+        <div class="user-info">
+          <span class="user-name">Gabriel Lima</span>
+          <span class="user-role">Consultor Náutico</span>
+        </div>
+      </div>
+      
+      <div class="sidebar-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        <span>Resultados que navegam juntos.</span>
+      </div>
+    </aside>
+    
+    <!-- MAIN CONTENT WORKSPACE -->
+    <main class="main-content">
+      
+      <!-- TOP BANNER HEADER -->
+      <header class="main-header">
+        <div class="header-bg"></div>
+        <div class="header-inner">
+          <div class="welcome-box">
+            <h1>Bem-vindo, Gabriel! 👋</h1>
+            <p>Aqui está o resumo da sua operação comercial hoje.</p>
+          </div>
+          
+          <div class="header-controls">
+            <!-- Search -->
+            <div class="search-bar">
+              <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+              <input type="text" id="global-search" placeholder="Buscar clientes, oportunidades..." autocomplete="off">
+              <span class="search-hint">/</span>
+            </div>
+            
+            <!-- Chat, Notifications, Help -->
+            <div class="header-btn has-notification" id="btn-notifications">
+              <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 4.36 6 6.92 6 10v5l-2 2v1h16v-1l-2-2z"/></svg>
+              
+              <!-- Notifications Dropdown Menu -->
+              <div class="notifications-dropdown" id="notifications-dropdown-menu">
+                <div class="notif-header">
+                  <span>Notificações</span>
+                  <span class="notif-mark-read" id="btn-mark-all-read">Marcar todas como lidas</span>
+                </div>
+                <div class="notif-body" id="notifications-list">
+                  <!-- Dynamic notifications list -->
+                </div>
+              </div>
+            </div>
+            
+            <div class="header-btn">
+              <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+            </div>
+            
+            <div class="header-btn">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+            </div>
+            
+            <!-- Date Filter -->
+            <div class="date-selector" id="header-date-filter">
+              <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+              <span id="header-date-label">01/06/2026 a 01/06/2026</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- ==================== VIEW 1: DASHBOARD ==================== -->
+      <section id="section-dashboard" class="content-section active">
+        <!-- Dashboard Indicator Cards -->
+        <div class="indicators-grid">
+          <div class="indicator-card" data-action="go-to-followups">
+            <div class="indicator-header">
+              <span class="indicator-label">Follow-ups Pendentes</span>
+              <div class="indicator-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              </div>
+            </div>
+            <div class="indicator-body">
+              <span class="indicator-value" id="card-followups-count">12</span>
+              <div class="indicator-footer">
+                <span>Ações para hoje</span>
+                <span class="indicator-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="indicator-card" data-action="go-to-agenda">
+            <div class="indicator-header">
+              <span class="indicator-label">Visitas Agendadas</span>
+              <div class="indicator-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+              </div>
+            </div>
+            <div class="indicator-body">
+              <span class="indicator-value" id="card-visits-count">8</span>
+              <div class="indicator-footer">
+                <span>Próximos 7 dias</span>
+                <span class="indicator-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="indicator-card" data-action="go-to-funil">
+            <div class="indicator-header">
+              <span class="indicator-label">Valor em Negociação</span>
+              <div class="indicator-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+              </div>
+            </div>
+            <div class="indicator-body">
+              <span class="indicator-value" id="card-negotiating-value">R$ 1.280.000,00</span>
+              <div class="indicator-footer">
+                <span>Total em pipeline</span>
+                <span class="indicator-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="indicator-card" data-action="go-to-vendas">
+            <div class="indicator-header">
+              <span class="indicator-label">Vendas Concluídas</span>
+              <div class="indicator-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              </div>
+            </div>
+            <div class="indicator-body">
+              <span class="indicator-value" id="card-sales-value">R$ 640.000,00</span>
+              <div class="indicator-footer">
+                <span>Este mês</span>
+                <span class="indicator-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="indicator-card" data-action="go-to-vendas">
+            <div class="indicator-header">
+              <span class="indicator-label">Comissão Prevista</span>
+              <div class="indicator-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+              </div>
+            </div>
+            <div class="indicator-body">
+              <span class="indicator-value" id="card-commission-value">R$ 8.000,00</span>
+              <div class="indicator-footer">
+                <span>Este mês</span>
+                <span class="indicator-arrow"><svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- FUNIL COMERCIAL HORIZONTAL CHEVRON -->
+        <div class="funnel-container">
+          <div class="section-title-row">
+            <div class="section-title">
+              <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+              Funil Comercial
+            </div>
+            <select class="section-select" id="funnel-time-filter">
+              <option>Este mês</option>
+              <option>Este trimestre</option>
+              <option>Este ano</option>
+            </select>
+          </div>
+          
+          <div class="chevron-funnel" id="funnel-chevron-container">
+            <!-- Dynamically populated chevron steps -->
+          </div>
+          
+          <!-- Continuous bottom progress line with dots -->
+          <div class="funnel-progress-bar">
+            <div class="progress-dot" style="left: 8%; color: var(--stage-lead); background-color: var(--stage-lead);"></div>
+            <div class="progress-dot" style="left: 24%; color: var(--stage-contact); background-color: var(--stage-contact);"></div>
+            <div class="progress-dot" style="left: 41%; color: var(--stage-qualified); background-color: var(--stage-qualified);"></div>
+            <div class="progress-dot" style="left: 58%; color: var(--stage-negotiation); background-color: var(--stage-negotiation);"></div>
+            <div class="progress-dot" style="left: 74%; color: var(--stage-won); background-color: var(--stage-won);"></div>
+            <div class="progress-dot" style="left: 91%; color: var(--stage-lost); background-color: var(--stage-lost);"></div>
+          </div>
+        </div>
+        
+        <!-- MAIN WIDGETS ROW (Negociações, Gráfico, Agenda, Ações) -->
+        <div class="dashboard-grid">
+          
+          <!-- Column 1: Negociações Ativas -->
+          <div class="widget-card">
+            <div class="widget-header">
+              <span class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                Negociações Ativas
+              </span>
+              <a href="#" class="widget-link" id="link-view-all-negoc">
+                Ver todas 
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+              </a>
+            </div>
+            <div class="widget-body">
+              <div class="negotiation-list" id="widget-active-negotiations">
+                <!-- Dynamically populated active negotiations -->
+              </div>
+            </div>
+          </div>
+          
+          <!-- Column 2: Desempenho de Vendas (Chart) -->
+          <div class="widget-card">
+            <div class="widget-header">
+              <span class="section-title">
+                <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                Desempenho de Vendas
+              </span>
+              <select class="section-select" id="sales-perf-filter">
+                <option>Este mês</option>
+                <option>Últimos 3 meses</option>
+              </select>
+            </div>
+            <div class="widget-body">
+              <div class="chart-container">
+                <canvas id="salesPerformanceChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Column 3: Agenda de Hoje & Ações Rápidas -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Agenda -->
+            <div class="widget-card" style="min-height: 230px; padding: 18px;">
+              <div class="widget-header" style="margin-bottom: 12px; padding-bottom: 8px;">
+                <span class="section-title" style="font-size: 13px;">
+                  <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+                  Agenda de Hoje
+                </span>
+                <a href="#" class="widget-link" id="link-view-calendar">Ver calendário</a>
+              </div>
+              <div class="widget-body">
+                <div class="agenda-list" id="widget-today-agenda">
+                  <!-- Dynamically populated agenda items -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="widget-card quick-actions-card">
+              <div class="widget-header" style="margin-bottom: 8px; padding-bottom: 6px; border:none;">
+                <span class="section-title" style="font-size: 12px; text-transform: uppercase; color: var(--text-muted);">Ações Rápidas</span>
+              </div>
+              <div class="quick-actions-grid">
+                <button class="quick-btn quick-btn-gold" id="btn-quick-new-client">
+                  <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  Novo Cliente
+                </button>
+                <button class="quick-btn" id="btn-quick-new-opportunity">
+                  <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  Nova Oportunidade
+                </button>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                  <button class="quick-btn" id="btn-quick-schedule-visit" style="padding: 10px; font-size:11px;">
+                    <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+                    Agendar Visita
+                  </button>
+                  <button class="quick-btn" id="btn-quick-new-followup" style="padding: 10px; font-size:11px;">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                    Novo Follow-up
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- MONTH SUMMARY ROW (Yacht Background footer) -->
+        <div class="month-summary">
+          <div class="summary-bg"></div>
+          <div style="z-index: 2; display: flex; flex-direction: column;">
+            <div class="summary-title-wrapper">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              Resumo do Mês
+            </div>
+            
+            <div class="summary-metrics-row">
+              <div class="metric-box">
+                <div class="metric-icon-circle">
+                  <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                </div>
+                <div class="metric-details">
+                  <span class="metric-lbl">Novos Clientes</span>
+                  <span class="metric-val" id="sum-new-clients">24</span>
+                  <span class="metric-growth"><svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:currentColor;"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg> 18% vs mês anterior</span>
+                </div>
+              </div>
+              
+              <div class="metric-box">
+                <div class="metric-icon-circle">
+                  <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                </div>
+                <div class="metric-details">
+                  <span class="metric-lbl">Oportunidades</span>
+                  <span class="metric-val" id="sum-opportunities">17</span>
+                  <span class="metric-growth"><svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:currentColor;"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg> 12% vs mês anterior</span>
+                </div>
+              </div>
+              
+              <div class="metric-box">
+                <div class="metric-icon-circle">
+                  <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                </div>
+                <div class="metric-details">
+                  <span class="metric-lbl">Taxa de Conversão</span>
+                  <span class="metric-val" id="sum-conversion-rate">35%</span>
+                  <span class="metric-growth"><svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:currentColor;"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg> 8% vs mês anterior</span>
+                </div>
+              </div>
+              
+              <div class="metric-box">
+                <div class="metric-icon-circle">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                </div>
+                <div class="metric-details">
+                  <span class="metric-lbl">Ticket Médio</span>
+                  <span class="metric-val" id="sum-average-ticket">R$ 106.666</span>
+                  <span class="metric-growth"><svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:currentColor;"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg> 15% vs mês anterior</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 2: CLIENTES E LEADS ==================== -->
+      <section id="section-clientes" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 8 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            Leads e Clientes
+          </div>
+          <button class="btn-primary" id="btn-add-client-tab">+ Novo Cliente</button>
+        </div>
+        
+        <div class="list-filter-row">
+          <div class="search-box-large">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" id="client-search" placeholder="Pesquisar por nome, produto, telefone...">
+          </div>
+          
+          <div class="filter-tags-group">
+            <button class="filter-tag active" data-temp="all">Todos</button>
+            <button class="filter-tag" data-temp="Quente"><span class="temp-indicator hot"></span> 🔥 Quente</button>
+            <button class="filter-tag" data-temp="Morno"><span class="temp-indicator warm"></span> 🟠 Morno</button>
+            <button class="filter-tag" data-temp="Frio"><span class="temp-indicator cold"></span> 🔵 Frio</button>
+            <button class="filter-tag" data-temp="Longo Prazo"><span class="temp-indicator long"></span> ⚫ Longo Prazo</button>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table class="premium-table">
+            <thead>
+              <tr>
+                <th>Nome / Cliente</th>
+                <th>Produto de Interesse</th>
+                <th>Temperatura</th>
+                <th>Etapa do Funil</th>
+                <th>Valor do Negócio</th>
+                <th>Última Ação</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="clients-table-body">
+              <!-- Dynamically populated table rows -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 3: FUNIL COMERCIAL KANBAN ==================== -->
+      <section id="section-funil" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>
+            Funil de Vendas Comercial
+          </div>
+          <button class="btn-primary" id="btn-add-opportunity-funil">+ Nova Oportunidade</button>
+        </div>
+        
+        <div class="kanban-board" id="kanban-board-container">
+          <!-- Dynamically populated kanban columns -->
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 4: FOLLOW-UPS ==================== -->
+      <section id="section-followups" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12.5 8H11v6l4.75 2.85.75-1.23-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg>
+            Painel de Follow-ups
+          </div>
+          <button class="btn-primary" id="btn-add-followup-tab">Novo Follow-up</button>
+        </div>
+        
+        <div class="followups-grid">
+          <!-- Atrasados -->
+          <div class="followups-col col-overdue">
+            <div class="followups-col-title">
+              Atrasados
+              <span class="followup-count-badge" id="count-followups-overdue">0</span>
+            </div>
+            <div class="kanban-cards" id="followups-overdue-list" style="overflow-y:visible; min-height:auto;">
+              <!-- Dynamically populated overdue followups -->
+            </div>
+          </div>
+          
+          <!-- Hoje -->
+          <div class="followups-col col-today">
+            <div class="followups-col-title">
+              Hoje
+              <span class="followup-count-badge" id="count-followups-today">0</span>
+            </div>
+            <div class="kanban-cards" id="followups-today-list" style="overflow-y:visible; min-height:auto;">
+              <!-- Dynamically populated today followups -->
+            </div>
+          </div>
+          
+          <!-- Futuros -->
+          <div class="followups-col col-future">
+            <div class="followups-col-title">
+              Futuros
+              <span class="followup-count-badge" id="count-followups-future">0</span>
+            </div>
+            <div class="kanban-cards" id="followups-future-list" style="overflow-y:visible; min-height:auto;">
+              <!-- Dynamically populated future followups -->
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 5: PRODUTOS ==================== -->
+      <section id="section-produtos" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
+            Catálogo de Veículos & Embarcações
+          </div>
+          <button class="btn-primary" id="btn-add-product-tab">+ Novo Veículo</button>
+        </div>
+        
+        <div class="list-filter-row">
+          <div class="filter-tags-group" id="product-category-filters">
+            <button class="filter-tag active" data-category="all">Todos</button>
+            <button class="filter-tag" data-category="Embarcações">⛵ Embarcações</button>
+            <button class="filter-tag" data-category="Jet Skis">🌊 Jet Skis</button>
+            <button class="filter-tag" data-category="Quadriciclos">⛰️ Quadriciclos</button>
+            <button class="filter-tag" data-category="UTVs">🚜 UTVs</button>
+          </div>
+        </div>
+        
+        <div class="products-grid" id="products-catalog-grid">
+          <!-- Dynamically populated products cards -->
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 6: VENDAS ==================== -->
+      <section id="section-vendas" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91v5.13h2V9L12 3z"/></svg>
+            Histórico Comercial & Comissões
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn-secondary" id="btn-mark-lost-sale" style="border-color:var(--stage-lost); color:var(--stage-lost);">Registrar Perda</button>
+            <button class="btn-primary" id="btn-mark-won-sale">Registrar Venda Concluída</button>
+          </div>
+        </div>
+        
+        <div class="reports-cards-row" style="margin-bottom: 24px;">
+          <div class="report-mini-card">
+            <span class="report-mini-lbl">Vendas Concluídas</span>
+            <span class="report-mini-val gold" id="sales-won-total-val">R$ 640.000,00</span>
+          </div>
+          <div class="report-mini-card">
+            <span class="report-mini-lbl">Comissão Acumulada</span>
+            <span class="report-mini-val" id="sales-commission-total-val" style="color:#10b981;">R$ 8.000,00</span>
+          </div>
+          <div class="report-mini-card">
+            <span class="report-mini-lbl">Taxa de Sucesso (Ganho)</span>
+            <span class="report-mini-val" id="sales-win-rate-val">75%</span>
+          </div>
+          <div class="report-mini-card">
+            <span class="report-mini-lbl">Negócios Perdidos</span>
+            <span class="report-mini-val" id="sales-lost-total-count" style="color:var(--stage-lost);">3</span>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table class="premium-table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Produto / Categoria</th>
+                <th>Valor do Negócio</th>
+                <th>Comissão Real</th>
+                <th>Data Fechamento</th>
+                <th>Status</th>
+                <th>Observações / Motivo</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="sales-history-table-body">
+              <!-- Dynamically populated sales history -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 7: SCRIPTS COMERCIAIS ==================== -->
+      <section id="section-scripts" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            Templates & Scripts de Vendas
+          </div>
+        </div>
+        
+        <div class="scripts-container" id="scripts-list-container">
+          <!-- Dynamically populated scripts templates -->
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 8: RELATÓRIOS ==================== -->
+      <section id="section-relatorios" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+            Relatórios e Métricas Executivas
+          </div>
+        </div>
+        
+        <div class="reports-dashboard">
+          <div class="reports-cards-row">
+            <div class="report-mini-card">
+              <span class="report-mini-lbl">Valor Total Vendido</span>
+              <span class="report-mini-val gold" id="rep-total-sold">R$ 640.000,00</span>
+            </div>
+            <div class="report-mini-card">
+              <span class="report-mini-lbl">Comissão Prevista</span>
+              <span class="report-mini-val" id="rep-total-commission" style="color:#10b981;">R$ 8.000,00</span>
+            </div>
+            <div class="report-mini-card">
+              <span class="report-mini-lbl">Leads Captados</span>
+              <span class="report-mini-val" id="rep-total-leads">91</span>
+            </div>
+            <div class="report-mini-card">
+              <span class="report-mini-lbl">Follow-ups Realizados</span>
+              <span class="report-mini-val" id="rep-total-followups">48</span>
+            </div>
+          </div>
+          
+          <div class="reports-charts-row">
+            <!-- Large evolution chart -->
+            <div class="chart-card-large">
+              <div class="widget-header">
+                <span class="section-title">Faturamento & Comissões Mensais</span>
+              </div>
+              <div class="chart-container">
+                <canvas id="reportsFaturamentoChart"></canvas>
+              </div>
+            </div>
+            
+            <!-- Category distribution chart -->
+            <div class="chart-card-small">
+              <div class="widget-header">
+                <span class="section-title">Vendas por Categoria</span>
+              </div>
+              <div class="chart-container" style="min-height:220px; display:flex; align-items:center; justify-content:center;">
+                <canvas id="reportsCategoriesChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 9: AGENDA ==================== -->
+      <section id="section-agenda" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+            Calendário Integrado
+          </div>
+          <button class="btn-primary" id="btn-agenda-new-visit">Nova Visita</button>
+        </div>
+        
+        <div class="calendar-view">
+          <div class="calendar-header">
+            <div class="calendar-month-title" id="calendar-month-year">Junho 2026</div>
+            <div class="calendar-nav">
+              <button class="calendar-nav-btn" id="calendar-prev-month">&lt;</button>
+              <button class="calendar-nav-btn" id="calendar-next-month">&gt;</button>
+            </div>
+          </div>
+          
+          <div class="calendar-grid-header">
+            <div>Dom</div>
+            <div>Seg</div>
+            <div>Ter</div>
+            <div>Qua</div>
+            <div>Qui</div>
+            <div>Sex</div>
+            <div>Sáb</div>
+          </div>
+          
+          <div class="calendar-grid" id="calendar-grid-days">
+            <!-- Dynamically populated calendar days -->
+          </div>
+        </div>
+      </section>
+      
+      <!-- ==================== VIEW 10: CONFIGURAÇÕES ==================== -->
+      <section id="section-configuracoes" class="content-section">
+        <div class="section-title-row">
+          <div class="section-title">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            Configurações do Sistema
+          </div>
+        </div>
+        
+        <div class="config-layout">
+          <div class="config-sidebar-card">
+            <div class="config-profile-circle">
+              <!-- Captain image again -->
+              <svg id="config-avatar-svg" viewBox="0 0 100 100" style="width:100%; height:100%; border-radius:50%; background: linear-gradient(135deg, var(--gold-primary) 0%, #a67f3c 100%);">
+                <rect width="100" height="100" fill="url(#goldGrad)"/>
+                <path d="M50,22 C59,22 66,28 66,37 C66,45 61,48 57,51 C55,52.5 54,54 54,56 L54,59 L46,59 L46,56 C46,54 45,52.5 43,51 C39,48 34,45 34,37 C34,28 41,22 50,22 Z" fill="#0D2038"/>
+                <path d="M30,26 Q50,14 70,26 L73,31 Q50,23 27,31 Z" fill="#F5F7FA"/>
+                <path d="M32,28 L68,28 L64,31 L36,31 Z" fill="#D4B06A"/>
+                <circle cx="50" cy="24" r="1.5" fill="#0D2038"/>
+                <path d="M50,25.5 L50,28 M48,27 L52,27" stroke="#0D2038" stroke-width="0.8"/>
+                <path d="M22,78 C22,64 34,62 42,62 L58,62 C66,62 78,64 78,78 L78,85 L22,85 Z" fill="#0D2038"/>
+                <path d="M38,62 L45,74 L42,85 L32,67 Z" fill="#D4B06A"/>
+                <path d="M62,62 L55,74 L58,85 L68,67 Z" fill="#D4B06A"/>
+              </svg>
+              <img id="config-avatar-img" src="" alt="Gabriel Lima" style="display:none; width:100%; height:100%; border-radius:50%; object-fit:cover;">
+              <label for="avatar-uploader">
+                <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+              </label>
+              <input type="file" id="avatar-uploader" style="display:none;" accept="image/*">
+            </div>
+            
+            <div style="text-align:center;">
+              <h3 style="font-family:var(--font-title); font-size:16px;">Gabriel Lima</h3>
+              <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">Consultor Náutico Premium</p>
+            </div>
+            
+            <div style="margin-top:10px; display:flex; flex-direction:column; gap:12px; font-size:12px; border-top:1px dashed var(--border-color); padding-top:16px;">
+              <div style="display:flex; justify-content:space-between;">
+                <span class="text-muted">Plano:</span>
+                <span class="badge-gold">Enterprise Premium</span>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span class="text-muted">Database:</span>
+                <span>Local Browser</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="config-body-card">
+            <div class="config-section-title">Dados Comerciais & Parâmetros</div>
+            <form id="config-form" style="display:flex; flex-direction:column; gap:16px;">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Nome Completo</label>
+                  <input type="text" class="form-control" value="Gabriel Lima" id="cfg-user-name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Cargo / Especialidade</label>
+                  <input type="text" class="form-control" value="Consultor Náutico" id="cfg-user-role">
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Meta de Vendas Mensal (R$)</label>
+                  <input type="number" class="form-control" value="1000000" id="cfg-monthly-goal">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Taxa de Comissão Padrão (%)</label>
+                  <input type="number" class="form-control" value="1.25" step="0.01" id="cfg-default-commission">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Assinatura de E-mail / Bio</label>
+                <textarea class="form-control" id="cfg-user-bio">Gabriel Lima | Especialista Náutico de Alto Padrão. Oferecendo as melhores embarcações e suporte náutico com atendimento executivo personalizado.</textarea>
+              </div>
+              
+              <div style="display:flex; justify-content:space-between; margin-top:20px; border-top:1px solid rgba(212, 176, 106, 0.1); padding-top:16px;">
+                <button type="button" class="btn-secondary" id="btn-cfg-reset-db" style="border-color:var(--stage-lost); color:var(--stage-lost);">Redefinir Banco de Dados</button>
+                <button type="submit" class="btn-primary">Salvar Parâmetros</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+  
+  <!-- ==================== LATERAL DRAWER: CLIENT DETAILS ==================== -->
+  <div class="drawer-overlay" id="drawer-client-overlay"></div>
+  <div class="drawer-container" id="drawer-client-container">
+    <div class="drawer-header">
+      <h3 style="font-family:var(--font-title); font-size:16px; color:var(--gold-primary); display:flex; align-items:center; gap:8px;">
+        <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        Dossiê do Cliente
+      </h3>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button id="btn-drawer-delete-client" style="background:transparent; border:1px solid var(--stage-lost); color:var(--stage-lost); border-radius:4px; padding:4px 8px; font-size:11px; cursor:pointer; font-weight:600; transition:all 0.3s ease;">Excluir Lead</button>
+        <button class="drawer-close" id="btn-drawer-close">&times;</button>
+      </div>
+    </div>
+    
+    <div class="drawer-body">
+      <div class="profile-summary-card">
+        <!-- Re-use captain/client styled icon -->
+        <svg class="drawer-client-avatar" viewBox="0 0 100 100" style="background-color: var(--bg-hover);">
+          <path d="M50,22 C59,22 66,28 66,37 C66,45 61,48 57,51 C55,52.5 54,54 54,56 L54,59 L46,59 L46,56 C46,54 45,52.5 43,51 C39,48 34,45 34,37 C34,28 41,22 50,22 Z" fill="#D4B06A"/>
+          <path d="M22,78 C22,64 34,62 42,62 L58,62 C66,62 78,64 78,78 L78,85 L22,85 Z" fill="#D4B06A"/>
+        </svg>
+        <div class="drawer-client-meta">
+          <h2 id="drw-client-name">João Silva</h2>
+          <span class="badge-stage won" id="drw-client-stage">Visita Agendada</span>
+        </div>
+      </div>
+      
+      <div class="drawer-info-grid">
+        <div class="drawer-info-item">
+          <span class="drawer-info-lbl">Produto de Interesse</span>
+          <span class="drawer-info-val" id="drw-client-product">Lancha FS 275 Concept</span>
+        </div>
+        <div class="drawer-info-item">
+          <span class="drawer-info-lbl">Valor Previsto</span>
+          <span class="drawer-info-val" id="drw-client-value" style="color:var(--gold-primary);">R$ 280.000,00</span>
+        </div>
+        <div class="drawer-info-item">
+          <span class="drawer-info-lbl">E-mail</span>
+          <span class="drawer-info-val" id="drw-client-email">joao.silva@gmail.com</span>
+        </div>
+        <div class="drawer-info-item">
+          <span class="drawer-info-lbl">WhatsApp / Fone</span>
+          <span class="drawer-info-val" id="drw-client-phone">(11) 98765-4321</span>
+        </div>
+        <div class="drawer-info-item">
+          <span class="drawer-info-lbl">Temperatura</span>
+          <span class="drawer-info-val" id="drw-client-temp">🔥 Quente</span>
+        </div>
+        <div class="drawer-info-item">
+          <span class="drawer-info-lbl">Criado em</span>
+          <span class="drawer-info-val" id="drw-client-created">01/06/2026</span>
+        </div>
+      </div>
+      
+      <!-- Timeline/Histórico -->
+      <div class="timeline-section">
+        <div class="timeline-title">Histórico de Interações</div>
+        <div class="timeline-flow" id="drawer-timeline-flow">
+          <!-- Dynamically populated timeline elements -->
+        </div>
+        
+        <!-- Add comment form -->
+        <form id="drawer-add-note-form" class="timeline-add-note">
+          <input type="text" id="drw-new-note-text" placeholder="Registrar observação rápida nesta timeline..." required>
+          <button type="submit">Salvar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- ==================== MODAL: NOVO CLIENTE / OPORTUNIDADE ==================== -->
+  <div class="modal-overlay" id="modal-client-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          <span id="modal-client-title">Novo Lead / Cliente</span>
+        </div>
+        <button class="modal-close" id="btn-modal-client-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-client-opportunity">
+          <input type="hidden" id="form-client-id">
+          
+          <div class="form-group">
+            <label class="form-label">Nome Completo do Cliente *</label>
+            <input type="text" class="form-control" id="form-c-name" required placeholder="Ex: Rodrigo Albuquerque">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">WhatsApp *</label>
+              <input type="text" class="form-control" id="form-c-phone" required placeholder="Ex: (11) 99887-7665">
+            </div>
+            <div class="form-group">
+              <label class="form-label">E-mail</label>
+              <input type="email" class="form-control" id="form-c-email" placeholder="Ex: rodrigo@empresa.com.br">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Produto de Interesse *</label>
+              <select class="form-control" id="form-c-product" required>
+                <!-- Dynamically populated from products store -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Valor Estimado do Negócio (R$) *</label>
+              <input type="number" class="form-control" id="form-c-value" required placeholder="Ex: 280000">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Temperatura do Lead *</label>
+              <select class="form-control" id="form-c-temp" required>
+                <option value="Quente">🔥 Quente</option>
+                <option value="Morno">Morno</option>
+                <option value="Frio">Frio</option>
+                <option value="Longo Prazo">Longo Prazo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Etapa Inicial *</label>
+              <select class="form-control" id="form-c-stage" required>
+                <option value="Lead Captado">Lead Captado</option>
+                <option value="Primeiro Contato">Primeiro Contato</option>
+                <option value="Qualificado">Qualificado</option>
+                <option value="Em Negociação">Em Negociação</option>
+                <option value="Visita Agendada">Visita Agendada</option>
+                <option value="Venda Concluída">Venda Concluída</option>
+                <option value="Venda Perdida">Venda Perdida</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Observações / Primeiro Contato</label>
+            <textarea class="form-control" id="form-c-notes" placeholder="Descreva os detalhes da captação ou interesses especiais..."></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="btn-modal-client-cancel">Cancelar</button>
+            <button type="submit" class="btn-primary">Salvar Lead</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- ==================== MODAL: CONCLUIR VENDA (GANHO) ==================== -->
+  <div class="modal-overlay" id="modal-sale-won-overlay">
+    <div class="modal-card" style="width:460px;">
+      <div class="modal-header" style="border-bottom-color: var(--stage-won);">
+        <div class="modal-title" style="color:#10b981;">
+          🏆 Fechamento de Venda: Ganho!
+        </div>
+        <button class="modal-close" id="btn-modal-won-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-sale-won">
+          <input type="hidden" id="won-client-id">
+          
+          <div class="form-group">
+            <label class="form-label">Cliente</label>
+            <input type="text" class="form-control" id="won-client-name" readonly>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Produto Concluído</label>
+            <input type="text" class="form-control" id="won-product-name" readonly>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Valor Final de Venda *</label>
+              <input type="number" class="form-control" id="won-sale-value" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Comissão Calculada *</label>
+              <input type="number" class="form-control" id="won-commission-value" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Data do Fechamento *</label>
+            <input type="date" class="form-control" id="won-sale-date" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Relatório de Fechamento / Notas de Sucesso</label>
+            <textarea class="form-control" id="won-sale-notes" placeholder="Adicione observações importantes do fechamento, facilidades de entrega ou adicionais vendidos..."></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="btn-modal-won-cancel">Voltar</button>
+            <button type="submit" class="btn-primary" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); color:#fff;">Confirmar Fechamento</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- ==================== MODAL: REGISTRAR PERDA (VENDA PERDIDA) ==================== -->
+  <div class="modal-overlay" id="modal-sale-lost-overlay">
+    <div class="modal-card" style="width:460px;">
+      <div class="modal-header" style="border-bottom-color: var(--stage-lost);">
+        <div class="modal-title" style="color:var(--stage-lost);">
+          ⚠️ Oportunidade Perdida
+        </div>
+        <button class="modal-close" id="btn-modal-lost-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-sale-lost">
+          <input type="hidden" id="lost-client-id">
+          
+          <div class="form-group">
+            <label class="form-label">Cliente</label>
+            <input type="text" class="form-control" id="lost-client-name" readonly>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Motivo Principal da Perda *</label>
+            <select class="form-control" id="lost-reason" required>
+              <option value="Preço elevado / Budget estourado">Preço elevado / Budget estourado</option>
+              <option value="Comprou da concorrência">Comprou da concorrência</option>
+              <option value="Desistiu da compra (Momento inadequado)">Desistiu da compra (Momento inadequado)</option>
+              <option value="Falta de interesse pós primeiro contato">Falta de interesse pós primeiro contato</option>
+              <option value="Preferiu outro modelo/categoria">Preferiu outro modelo/categoria</option>
+              <option value="Outros">Outros</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Explicação Detalhada / Observações *</label>
+            <textarea class="form-control" id="lost-notes" required placeholder="Explique os detalhes do feedback do cliente para análise comercial..."></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="btn-modal-lost-cancel">Voltar</button>
+            <button type="submit" class="btn-primary" style="background:linear-gradient(135deg, var(--stage-lost) 0%, #b91c1c 100%); color:#fff;">Confirmar Perda</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- ==================== MODAL: NOVO FOLLOW-UP ==================== -->
+  <div class="modal-overlay" id="modal-followup-overlay">
+    <div class="modal-card" style="width:460px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          Agendar Follow-up
+        </div>
+        <button class="modal-close" id="btn-modal-follow-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-new-followup">
+          <div class="form-group">
+            <label class="form-label">Selecione o Cliente *</label>
+            <select class="form-control" id="form-follow-client" required>
+              <!-- Dynamically populated from active clients -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Tipo de Ação *</label>
+            <select class="form-control" id="form-follow-type" required>
+              <option value="Ligar para cliente">📞 Ligar para cliente</option>
+              <option value="Mandar proposta por WhatsApp">💬 WhatsApp / Proposta</option>
+              <option value="Enviar e-mail formal">✉️ Enviar e-mail formal</option>
+              <option value="Visita à concessionária">⛵ Visita técnica / Reunião</option>
+              <option value="Acompanhar entrega do veículo">🚜 Acompanhar entrega</option>
+            </select>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Data Agendada *</label>
+              <input type="date" class="form-control" id="form-follow-date" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Horário aproximado *</label>
+              <input type="time" class="form-control" id="form-follow-time" required value="09:00">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Detalhes da Ação / Roteiro *</label>
+            <textarea class="form-control" id="form-follow-notes" required placeholder="Ex: Ligar para confirmar interesse no modelo F-Boss e agendar visita de teste no sábado."></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="btn-modal-follow-cancel">Cancelar</button>
+            <button type="submit" class="btn-primary">Salvar Agendamento</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- ==================== MODAL: AGENDAR VISITA ==================== -->
+  <div class="modal-overlay" id="modal-visit-overlay">
+    <div class="modal-card" style="width:460px;">
+      <div class="modal-header">
+        <div class="modal-title" style="color:var(--stage-visit);">
+          ⛵ Agendar Visita Técnica / Reunião
+        </div>
+        <button class="modal-close" id="btn-modal-visit-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-new-visit">
+          <div class="form-group">
+            <label class="form-label">Cliente *</label>
+            <select class="form-control" id="form-visit-client" required>
+              <!-- Dynamically populated from active clients -->
+            </select>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Data da Visita *</label>
+              <input type="date" class="form-control" id="form-visit-date" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Horário *</label>
+              <input type="time" class="form-control" id="form-visit-time" required value="10:00">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Local de Encontro / Concessionária *</label>
+            <input type="text" class="form-control" id="form-visit-location" required placeholder="Ex: Marina Golden Pier, Box 23" value="Showroom Principal">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Objetivo da Visita / Embarcação de Teste *</label>
+            <textarea class="form-control" id="form-visit-notes" required placeholder="Ex: Apresentar a Lancha FS 275 Concept, realizar test-drive na represa e negociar condições de pagamento."></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="btn-modal-visit-cancel">Cancelar</button>
+            <button type="submit" class="btn-primary" style="background:linear-gradient(135deg, var(--stage-visit) 0%, #6d28d9 100%); color:#fff;">Salvar Agendamento</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- ==================== MODAL: CADASTRO PRODUTO ==================== -->
+  <div class="modal-overlay" id="modal-product-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          <span id="modal-product-title">Cadastrar Veículo / Embarcação</span>
+        </div>
+        <button class="modal-close" id="btn-modal-prod-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-new-product">
+          <input type="hidden" id="prod-id">
+          <div class="form-group">
+            <label class="form-label">Nome do Modelo *</label>
+            <input type="text" class="form-control" id="prod-name" required placeholder="Ex: UTV Polaris RZR XP 1000">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Categoria *</label>
+              <select class="form-control" id="prod-category" required>
+                <option value="Embarcações">Embarcações</option>
+                <option value="Jet Skis">Jet Skis</option>
+                <option value="Quadriciclos">Quadriciclos</option>
+                <option value="UTVs">UTVs</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Preço Sugerido (R$) *</label>
+              <input type="number" class="form-control" id="prod-price" required placeholder="Ex: 120000">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Linha de Produtos *</label>
+              <select class="form-control" id="prod-line" required>
+                <option value="Comfort">Comfort</option>
+                <option value="Sport">Sport</option>
+                <option value="Crossover">Crossover</option>
+                <option value="Premium">Premium</option>
+                <option value="Pontoon">Pontoon</option>
+                <option value="Nenhuma">Nenhuma</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status *</label>
+              <select class="form-control" id="prod-status" required>
+                <option value="Disponível">Disponível</option>
+                <option value="Sob Encomenda">Sob Encomenda</option>
+                <option value="Indisponível">Indisponível</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Imagem Principal *</label>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <select class="form-control" id="prod-image-select">
+                <option value="assets/lancha.png">⛵ Foto Padrão de Lancha (Speedboat)</option>
+                <option value="assets/jetski.png">🌊 Foto Padrão de Jet Ski (Yamaha)</option>
+                <option value="assets/quadriciclo.png">⛰️ Foto Padrão de Quadriciclo (Can-Am)</option>
+                <option value="assets/utv.png">🚜 Foto Padrão de UTV (Polaris)</option>
+              </select>
+              <div style="text-align:center; font-size:10px; color:var(--text-muted); font-weight:600; margin: 2px 0;">— OU —</div>
+              <div style="display:flex; flex-direction:column; gap:4px;">
+                <label class="form-label" style="font-size:10px; color:var(--gold-primary);">Fazer upload de foto do computador:</label>
+                <input type="file" class="form-control" id="prod-image-file" accept="image/*">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Galeria de Imagens (Opcional)</label>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <input type="file" class="form-control" id="prod-gallery-file" accept="image/*" multiple>
+              <span style="font-size:10px; color:var(--text-muted);">Selecione múltiplos arquivos para criar um carrossel de fotos interativo no card do veículo.</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Descrição Comercial *</label>
+            <textarea class="form-control" id="prod-desc" required placeholder="Descreva os itens de série, motorização, suspensão ou adicionais inclusos..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Observações Internas (Estoque/Prazos)</label>
+            <textarea class="form-control" id="prod-notes" placeholder="Informações de disponibilidade, prazo de entrega da fábrica, etc..."></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" id="btn-modal-prod-cancel">Cancelar</button>
+            <button type="submit" class="btn-primary">Adicionar Veículo</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

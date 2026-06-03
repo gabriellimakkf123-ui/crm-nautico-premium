@@ -1,0 +1,13 @@
+{
+  "name": "crm-nautico-premium-backend",
+  "version": "1.0.0",
+  "description": "Servidor backend e Webhook do WhatsApp para o CRM Náutico Premium",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

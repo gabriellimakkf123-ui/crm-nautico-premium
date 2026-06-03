@@ -1,0 +1,727 @@
+{
+  "clients": [
+    {
+      "id": "c_1780453747281",
+      "name": "test user name",
+      "phone": "+16 (31) 55511-81",
+      "email": "",
+      "product": "Pontoon 250",
+      "value": 180000,
+      "temp": "Quente",
+      "stage": "Lead Captado",
+      "created": "2026-06-03",
+      "notes": "Lead captado automaticamente via Integração WhatsApp Business.",
+      "timeline": [
+        {
+          "date": "02/06/2026",
+          "text": "Lead captado automaticamente via API do WhatsApp Business.",
+          "isSystem": true
+        },
+        {
+          "date": "02/06/2026",
+          "text": "Mensagem enviada: \"this is a text message\" (Produto associado: Pontoon 250)",
+          "isSystem": false
+        }
+      ],
+      "lastAction": "Lead recebido via WhatsApp"
+    },
+    {
+      "id": "c_1780438716310",
+      "name": "Rodrigo Silva",
+      "phone": "+55 (11) 99999-8888",
+      "email": "",
+      "product": "Pontoon 250",
+      "value": 180000,
+      "temp": "Quente",
+      "stage": "Lead Captado",
+      "created": "2026-06-02",
+      "notes": "Lead captado automaticamente via Integração WhatsApp Business.",
+      "timeline": [
+        {
+          "date": "02/06/2026",
+          "text": "Lead captado automaticamente via API do WhatsApp Business.",
+          "isSystem": true
+        },
+        {
+          "date": "02/06/2026",
+          "text": "Mensagem enviada: \"Ol� Gabriel, gostaria de agendar uma visita para conhecer o Pontoon 320\" (Produto associado: Pontoon 250)",
+          "isSystem": false
+        }
+      ],
+      "lastAction": "Lead recebido via WhatsApp"
+    },
+    {
+      "id": "c1",
+      "name": "João Silva",
+      "phone": "(11) 98765-4321",
+      "email": "joao.silva@gmail.com",
+      "product": "Lancha FS 275 Concept",
+      "value": 280000,
+      "temp": "Quente",
+      "stage": "Visita Agendada",
+      "created": "2026-05-25",
+      "notes": "Cliente demonstrou forte interesse em fechar antes do final do mês. Quer test-drive na represa.",
+      "timeline": [
+        {
+          "date": "25/05/2026",
+          "text": "Lead captado via formulário do site.",
+          "isSystem": true
+        },
+        {
+          "date": "26/05/2026",
+          "text": "Primeiro contato realizado. Cliente solicitou informações da FS 275.",
+          "isSystem": false
+        },
+        {
+          "date": "28/05/2026",
+          "text": "Qualificado com sucesso. Renda e perfil de compra validados.",
+          "isSystem": true
+        },
+        {
+          "date": "01/06/2026",
+          "text": "Visita técnica agendada para showroom.",
+          "isSystem": false
+        }
+      ],
+      "lastAction": "Visita agendada para o Showroom"
+    },
+    {
+      "id": "c2",
+      "name": "Maria Oliveira",
+      "phone": "(21) 99887-6655",
+      "email": "maria.oliveira@uol.com.br",
+      "product": "Jet Ski Yamaha FX Cruiser SVHO",
+      "value": 95000,
+      "temp": "Quente",
+      "stage": "Em Negociação",
+      "created": "2026-05-28",
+      "notes": "Negociando parcelamento. Solicitou 5% de desconto à vista.",
+      "timeline": [
+        {
+          "date": "28/05/2026",
+          "text": "Lead captado via WhatsApp.",
+          "isSystem": true
+        },
+        {
+          "date": "29/05/2026",
+          "text": "Primeiro contato telefônico. Apresentação das opções de Jet Skis.",
+          "isSystem": false
+        },
+        {
+          "date": "02/06/2026",
+          "text": "Enviada proposta comercial com opção de financiamento.",
+          "isSystem": true
+        }
+      ],
+      "lastAction": "Proposta enviada para análise"
+    },
+    {
+      "id": "c3",
+      "name": "Carlos Souza",
+      "phone": "(31) 98866-5544",
+      "email": "carlos.souza@yahoo.com",
+      "product": "Quadriciclo Can-Am Outlander 570",
+      "value": 65000,
+      "temp": "Morno",
+      "stage": "Em Negociação",
+      "created": "2026-05-20",
+      "notes": "Quer comprar para usar no sítio da família. Em dúvida sobre a cilindrada.",
+      "timeline": [
+        {
+          "date": "20/05/2026",
+          "text": "Lead captado via indicação de outro cliente.",
+          "isSystem": true
+        },
+        {
+          "date": "22/05/2026",
+          "text": "Contato inicial. Cliente analisando o Outlander 570 e o 450.",
+          "isSystem": false
+        }
+      ],
+      "lastAction": "Enviado comparativo técnico"
+    },
+    {
+      "id": "c4",
+      "name": "Roberto Lima",
+      "phone": "(11) 97755-3322",
+      "email": "roberto.lima@corporativo.com",
+      "product": "UTV Polaris RZR XP 1000",
+      "value": 120000,
+      "temp": "Quente",
+      "stage": "Visita Agendada",
+      "created": "2026-05-22",
+      "notes": "Cliente experiente em off-road. Quer fazer a visita acompanhado do mecânico.",
+      "timeline": [
+        {
+          "date": "22/05/2026",
+          "text": "Lead captado via Instagram.",
+          "isSystem": true
+        },
+        {
+          "date": "25/05/2026",
+          "text": "Ligação produtiva. Cliente conhece bem o UTV Polaris.",
+          "isSystem": false
+        },
+        {
+          "date": "01/06/2026",
+          "text": "Agendada vistoria do veículo em estoque para amanhã.",
+          "isSystem": true
+        }
+      ],
+      "lastAction": "Agendada visita de vistoria técnica"
+    },
+    {
+      "id": "c5",
+      "name": "Eduardo Santos",
+      "phone": "(19) 98122-3344",
+      "email": "edu.santos@terra.com.br",
+      "product": "Lancha Coral 36 Crossover",
+      "value": 450000,
+      "temp": "Frio",
+      "stage": "Lead Captado",
+      "created": "2026-06-01",
+      "notes": "Interessado em lanchas cabinadas grandes. Perfil investidor.",
+      "timeline": [
+        {
+          "date": "01/06/2026",
+          "text": "Lead captado por formulário web de alta conversão.",
+          "isSystem": true
+        }
+      ],
+      "lastAction": "Aguardando primeiro contato telefônico"
+    },
+    {
+      "id": "c6",
+      "name": "Patrícia Costa",
+      "phone": "(11) 99111-2222",
+      "email": "patricia.costa@adv.oab.org",
+      "product": "Jet Ski Yamaha FX Cruiser SVHO",
+      "value": 95000,
+      "temp": "Longo Prazo",
+      "stage": "Primeiro Contato",
+      "created": "2026-05-15",
+      "notes": "Cliente de férias no exterior. Retorna em 15 dias para retomar conversas.",
+      "timeline": [
+        {
+          "date": "15/05/2026",
+          "text": "Lead captado. Cliente atendeu ligação rápido e pediu contato em junho.",
+          "isSystem": false
+        }
+      ],
+      "lastAction": "Adiado contato para meados de Junho"
+    },
+    {
+      "id": "c7",
+      "name": "Leonardo Ferreira",
+      "phone": "(47) 98811-2233",
+      "email": "leo.ferreira@ferreira.com.br",
+      "product": "Lancha Coral 36 Crossover",
+      "value": 450000,
+      "temp": "Quente",
+      "stage": "Qualificado",
+      "created": "2026-05-24",
+      "notes": "Aprovou a planta estrutural da lancha. Falta definir motorização.",
+      "timeline": [
+        {
+          "date": "24/05/2026",
+          "text": "Lead captado em evento náutico de Balneário Camboriú.",
+          "isSystem": true
+        },
+        {
+          "date": "26/05/2026",
+          "text": "Reunião virtual para apresentação da Coral 36.",
+          "isSystem": false
+        }
+      ],
+      "lastAction": "Preparando simulação de motores Volvo Penta"
+    }
+  ],
+  "products": [
+    {
+      "id": "p2",
+      "name": "Jet Ski Yamaha FX Cruiser SVHO",
+      "category": "Jet Skis",
+      "line": "Sport",
+      "status": "Disponível",
+      "price": 95000,
+      "img": "assets/jetski.png",
+      "gallery": [
+        "assets/jetski.png"
+      ],
+      "desc": "Jet ski de alta performance com motor supercharger, capacidade para 3 pessoas e acabamento de luxo.",
+      "notes": "Disponível para entrega imediata no showroom."
+    },
+    {
+      "id": "p3",
+      "name": "Quadriciclo Can-Am Outlander 570",
+      "category": "Quadriciclos",
+      "line": "Sport",
+      "status": "Disponível",
+      "price": 65000,
+      "img": "assets/quadriciclo.png",
+      "gallery": [
+        "assets/quadriciclo.png"
+      ],
+      "desc": "Quadriciclo robusto preparado para qualquer terreno, suspensão independente e motor Rotax de alta potência.",
+      "notes": "2 unidades em estoque físico."
+    },
+    {
+      "id": "p4",
+      "name": "UTV Polaris RZR XP 1000",
+      "category": "UTVs",
+      "line": "Sport",
+      "status": "Disponível",
+      "price": 120000,
+      "img": "assets/utv.png",
+      "gallery": [
+        "assets/utv.png"
+      ],
+      "desc": "O máximo em off-road. UTV de alta cilindrada com gaiola de proteção integrada, suspensão ativa de competição.",
+      "notes": "Encomendas com sinal de 30%."
+    },
+    {
+      "id": "p_v_pontoon250",
+      "name": "Pontoon 250",
+      "category": "Embarcações",
+      "line": "Pontoon",
+      "status": "Disponível",
+      "price": 180000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_header.png"
+      ],
+      "desc": "Pontoon de 25 pés ideal para águas abrigadas, oferecendo o máximo em espaço, estabilidade e conforto para reuniões familiares.",
+      "notes": "Disponibilidade imediata no showroom."
+    },
+    {
+      "id": "p_v_pontoon320",
+      "name": "Pontoon 320",
+      "category": "Embarcações",
+      "line": "Pontoon",
+      "status": "Disponível",
+      "price": 320000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_footer.png"
+      ],
+      "desc": "Super pontoon de 32 pés com dois andares (Double Deck), escorregador e capacidade para até 16 passageiros. O clube flutuante definitivo.",
+      "notes": "Prazo de entrega: 60 dias."
+    },
+    {
+      "id": "p_v_v195_c",
+      "name": "V195 Comfort",
+      "category": "Embarcações",
+      "line": "Comfort",
+      "status": "Disponível",
+      "price": 130000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png"
+      ],
+      "desc": "Lancha compacta com proa aberta de 19,5 pés, ideal para passeios rápidos e esportes aquáticos.",
+      "notes": "Disponível em 4 cores de estofamento."
+    },
+    {
+      "id": "p_v_v210_c",
+      "name": "V210 Comfort",
+      "category": "Embarcações",
+      "line": "Comfort",
+      "status": "Disponível",
+      "price": 160000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png"
+      ],
+      "desc": "Evolução natural do mercado de 21 pés. Cockpit otimizado com assentos giratórios e excelente aproveitamento de espaço.",
+      "notes": "Entregue com capota retrátil."
+    },
+    {
+      "id": "p_v_v215_cc",
+      "name": "V215 Cabin Comfort",
+      "category": "Embarcações",
+      "line": "Comfort",
+      "status": "Disponível",
+      "price": 195000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_header.png"
+      ],
+      "desc": "Lancha de 21,5 pés com cabine compacta para pernoite de casal. Alia a esportividade com a praticidade de abrigo.",
+      "notes": "Opção de sanitário químico na cabine."
+    },
+    {
+      "id": "p_v_v230_g2c",
+      "name": "V230 GII Comfort",
+      "category": "Embarcações",
+      "line": "Comfort",
+      "status": "Disponível",
+      "price": 230000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png"
+      ],
+      "desc": "Modelo de 23 pés de segunda geração com acabamento aprimorado, lines modernas e casco projetado para navegação suave.",
+      "notes": "Homologada para 8 passageiros."
+    },
+    {
+      "id": "p_v_v250_c",
+      "name": "V250 Comfort",
+      "category": "Embarcações",
+      "line": "Comfort",
+      "status": "Disponível",
+      "price": 290000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_footer.png"
+      ],
+      "desc": "Lancha de 25 pés com amplo cockpit, solário de popa, acabamento refinado e capacidade para até 11 passageiros.",
+      "notes": "Disponível para test-drive."
+    },
+    {
+      "id": "p_v_v265_cc",
+      "name": "V265 Cabin Comfort",
+      "category": "Embarcações",
+      "line": "Comfort",
+      "status": "Disponível",
+      "price": 360000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_header.png"
+      ],
+      "desc": "Uma das cabinadas mais tradicionais da categoria. Cabine espaçosa com cama de casal, banheiro fechado e minicozinha.",
+      "notes": "Prazo médio de laminação: 45 dias."
+    },
+    {
+      "id": "p_v_v250_s",
+      "name": "V250 Sport",
+      "category": "Embarcações",
+      "line": "Sport",
+      "status": "Disponível",
+      "price": 280000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png"
+      ],
+      "desc": "Edição esportiva de 25 pés com layout de assentos otimizado para navegação rápida e design agressivo.",
+      "notes": "Disponível com motor de popa de até 300HP."
+    },
+    {
+      "id": "p_v_v220_surf",
+      "name": "V220 Surf",
+      "category": "Embarcações",
+      "line": "Sport",
+      "status": "Disponível",
+      "price": 210000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_footer.png"
+      ],
+      "desc": "Desenvolvida especialmente para a prática de wakeboard e wakesurf. Conta com flaps específicos e sistema de lastro.",
+      "notes": "Torre de wakeboard em alumínio inclusa."
+    },
+    {
+      "id": "p_v_v205_cross",
+      "name": "V205 Crossover",
+      "category": "Embarcações",
+      "line": "Crossover",
+      "status": "Disponível",
+      "price": 180000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png"
+      ],
+      "desc": "A crossover de entrada da marca. Excelente espaço interno de proa aberta combinada com soluções inteligentes de cabine de apoio.",
+      "notes": "Sucesso de vendas."
+    },
+    {
+      "id": "p_v_v300_cross",
+      "name": "V300 Crossover",
+      "category": "Embarcações",
+      "line": "Crossover",
+      "status": "Disponível",
+      "price": 480000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_header.png"
+      ],
+      "desc": "Day Cruiser que combina a conveniência de uma proa aberta com o conforto de uma cabine com pé-direito alto.",
+      "notes": "Lancha mais vendida da categoria no Brasil."
+    },
+    {
+      "id": "p_v_v370_cross",
+      "name": "V370 Crossover",
+      "category": "Embarcações",
+      "line": "Crossover",
+      "status": "Disponível",
+      "price": 780000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_footer.png"
+      ],
+      "desc": "Crossover espetacular de 37 pés com solário de proa integrado, cabine luxuosa com pernoite para 4 pessoas e ampla praça de popa.",
+      "notes": "Motorização parelha recomendada."
+    },
+    {
+      "id": "p_v_v400_cross",
+      "name": "V400 Crossover",
+      "category": "Embarcações",
+      "line": "Crossover",
+      "status": "Disponível",
+      "price": 980000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_header.png"
+      ],
+      "desc": "Embarcação premium de grande porte com cabine de luxo, espaço gourmet na popa e teto rígido elétrico. O máximo de conforto e status.",
+      "notes": "Prazo de entrega: 90 dias."
+    },
+    {
+      "id": "p_v_v550_cross",
+      "name": "V550 Crossover",
+      "category": "Embarcações",
+      "line": "Crossover",
+      "status": "Disponível",
+      "price": 4500000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_footer.png"
+      ],
+      "desc": "Iate Crossover monumental de 55 pés. Layout integrado de convés aberto com suítes de alto luxo abaixo do deck.",
+      "notes": "Faturamento direto de fábrica."
+    },
+    {
+      "id": "p_v_v300_dc",
+      "name": "V300 Day Cruiser",
+      "category": "Embarcações",
+      "line": "Premium",
+      "status": "Disponível",
+      "price": 510000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_header.png"
+      ],
+      "desc": "Versão cabinada clássica de 30 pés. Cabine fechada luxuosa, banheiro completo e cockpit perfeito para navegação oceânica.",
+      "notes": "Acabamento interno customizável."
+    },
+    {
+      "id": "p_v_v400_ht",
+      "name": "V400 HT",
+      "category": "Embarcações",
+      "line": "Premium",
+      "status": "Disponível",
+      "price": 1100000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_footer.png"
+      ],
+      "desc": "Lancha Hard Top de 40 pés com fechamento traseiro em vidro, ar-condicionado de alta capacidade e gerador inclusos.",
+      "notes": "Modelo de showroom disponível."
+    },
+    {
+      "id": "p_v_v450_p",
+      "name": "V450 Premium",
+      "category": "Embarcações",
+      "line": "Premium",
+      "status": "Disponível",
+      "price": 1800000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_header.png"
+      ],
+      "desc": "Iate premium de 45 pés com design italiano, plataforma de popa submergível e acabamento interno em couro e madeira nobre.",
+      "notes": "Prazo de construção: 120 dias."
+    },
+    {
+      "id": "p_v_v550_fly",
+      "name": "V550 Flybridge",
+      "category": "Embarcações",
+      "line": "Premium",
+      "status": "Disponível",
+      "price": 4800000,
+      "img": "assets/lancha.png",
+      "gallery": [
+        "assets/lancha.png",
+        "assets/yacht_footer.png"
+      ],
+      "desc": "Flagship da Ventura Marine com 55 pés e Flybridge gigante. 3 cabines, 2 banheiros e salão principal totalmente integrado.",
+      "notes": "Opção de motorização IPS."
+    }
+  ],
+  "sales": [
+    {
+      "id": "s1",
+      "clientName": "Flávio Augusto",
+      "product": "Lancha Coral 36 Crossover",
+      "value": 450000,
+      "commission": 5625,
+      "date": "2026-06-01",
+      "status": "Ganho",
+      "notes": "Venda concluída com motores mercruiser. Pagamento via Pix."
+    },
+    {
+      "id": "s2",
+      "clientName": "Marcos Pontes",
+      "product": "UTV Polaris RZR XP 1000",
+      "value": 120000,
+      "commission": 1500,
+      "date": "2026-06-02",
+      "status": "Ganho",
+      "notes": "Cliente optou pelo modelo de vitrine com acessórios."
+    },
+    {
+      "id": "s3",
+      "clientName": "Juliana Mendes",
+      "product": "Quadriciclo Can-Am Outlander 570",
+      "value": 70000,
+      "commission": 875,
+      "date": "2026-06-02",
+      "status": "Ganho",
+      "notes": "Incluiu carretinha de transporte no pacote."
+    },
+    {
+      "id": "sl1",
+      "clientName": "Bruno Alencar",
+      "product": "Lancha FS 275 Concept",
+      "value": 280000,
+      "commission": 0,
+      "date": "2026-05-30",
+      "status": "Perdido",
+      "notes": "Preço elevado / Budget estourado - Optou por uma embarcação seminova de menor porte."
+    },
+    {
+      "id": "sl2",
+      "clientName": "Aline Schmidt",
+      "product": "Jet Ski Yamaha FX Cruiser SVHO",
+      "value": 95000,
+      "commission": 0,
+      "date": "2026-05-28",
+      "status": "Perdido",
+      "notes": "Comprou da concorrência - Fechou com concessionária Sea-Doo local por facilidade de oficina."
+    },
+    {
+      "id": "sl3",
+      "clientName": "Ricardo Bastos",
+      "product": "UTV Polaris RZR XP 1000",
+      "value": 120000,
+      "commission": 0,
+      "date": "2026-05-25",
+      "status": "Perdido",
+      "notes": "Desistiu da compra (Momento inadequado) - Adiou compra do UTV devido a viagem prolongada."
+    }
+  ],
+  "agenda": [
+    {
+      "id": "a1",
+      "clientId": "c1",
+      "clientName": "João Silva",
+      "task": "Ligar para João Silva",
+      "subText": "Lancha FS 275 Concept",
+      "time": "09:00",
+      "date": "2026-06-02",
+      "priority": "medium"
+    },
+    {
+      "id": "a2",
+      "clientId": "c2",
+      "clientName": "Maria Oliveira",
+      "task": "Reunião com Maria Oliveira",
+      "subText": "Apresentação de proposta",
+      "time": "10:30",
+      "date": "2026-06-02",
+      "priority": "high"
+    },
+    {
+      "id": "a3",
+      "clientId": "c3",
+      "clientName": "Carlos Souza",
+      "task": "Follow-up Carlos Souza",
+      "subText": "Quadriciclo Outlander 570",
+      "time": "14:00",
+      "date": "2026-06-02",
+      "priority": "low"
+    },
+    {
+      "id": "a4",
+      "clientId": "c4",
+      "clientName": "Roberto Lima",
+      "task": "Visita técnica Roberto Lima",
+      "subText": "UTV Polaris RZR XP 1000",
+      "time": "16:00",
+      "date": "2026-06-02",
+      "priority": "visit"
+    }
+  ],
+  "scripts": [
+    {
+      "title": "Abordagem Inicial - Lancha FS 275 Concept",
+      "category": "Embarcações",
+      "script": "Olá [Nome], tudo bem? Aqui é o Gabriel Lima, Consultor Náutico.\nVi que você solicitou mais informações sobre a nossa Lancha FS 275 Concept no site.\n\nA FS 275 é uma das embarcações mais completas da categoria, com um acabamento sofisticado e excelente navegação. Para eu te passar uma proposta ideal, você pretende navegar mais em represa ou mar? E qual seria a lotação ideal para os seus passeios?\n\nFico no aguardo para desenharmos a configuração perfeita para você."
+    },
+    {
+      "title": "Fechamento de Negócio - UTV Polaris RZR XP 1000",
+      "category": "UTVs",
+      "script": "Olá [Nome], boa tarde! Conseguiu analisar a simulação que enviei para o UTV Polaris RZR XP 1000?\n\nTenho uma boa notícia: consegui com a diretoria manter aquela condição de taxa subsidiada e o bônus dos acessórios de proteção (teto e para-brisa) para faturamento até esta sexta-feira. \n\nComo o estoque desse modelo está super restrito devido às importações, conseguimos segurar o chassi reservado para você se fizermos o fechamento do contrato hoje. O que acha de garantirmos sua máquina de aventura para o próximo fim de semana?"
+    },
+    {
+      "title": "Follow-up Pós-Visita Concessionária - Geral",
+      "category": "Geral",
+      "script": "Olá [Nome], tudo bem? Passando para agradecer sua visita ontem ao nosso Showroom.\nFoi excelente apresentar as opções e entender melhor o seu perfil.\n\nConforme conversamos, estou anexando aqui a ficha técnica detalhada dos modelos que você mais gostou. Qual deles mais balançou o seu coração após vê-los de perto?\n\nFico à disposição se precisar de qualquer simulação adicionais!"
+    }
+  ],
+  "config": {
+    "userName": "Gabriel Lima",
+    "userRole": "Consultor Náutico",
+    "monthlyGoal": 1000000,
+    "defaultCommission": 1.25
+  },
+  "notifications": [
+    {
+      "id": "n_1780453747282",
+      "title": "Novo Lead no WhatsApp 💬",
+      "text": "test user name - Interessado em Pontoon 250",
+      "time": "Agora",
+      "unread": true
+    },
+    {
+      "id": "n_1780438716310",
+      "title": "Novo Lead no WhatsApp 💬",
+      "text": "Rodrigo Silva - Interessado em Pontoon 250",
+      "time": "Agora",
+      "unread": true
+    },
+    {
+      "id": "n1",
+      "title": "Visita técnica agendada",
+      "text": "Roberto Lima - Hoje às 16:00 - UTV Polaris RZR XP 1000",
+      "time": "Há 10 min",
+      "unread": true
+    },
+    {
+      "id": "n2",
+      "title": "Novo lead captado",
+      "text": "Eduardo Santos demonstrou interesse em Coral 36 Crossover",
+      "time": "Há 1 hora",
+      "unread": true
+    },
+    {
+      "id": "n3",
+      "title": "Venda concluída com sucesso",
+      "text": "Flávio Augusto - Lancha Coral 36 Crossover - R$ 450.000,00",
+      "time": "Ontem",
+      "unread": false
+    }
+  ]
+}
