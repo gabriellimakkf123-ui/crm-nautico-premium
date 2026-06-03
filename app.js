@@ -7,41 +7,7 @@
 const STORAGE_KEY = 'crm_nautico_premium_data';
 const API_URL = `${window.location.origin}/api`;
 
-const DEFAULT_PRODUCTS = [
-  // Preserved non-boat products
-  { id: 'p2', name: 'Jet Ski Yamaha FX Cruiser SVHO', category: 'Jet Skis', line: 'Sport', status: 'Disponível', price: 95000, img: 'assets/jetski.png', gallery: ['assets/jetski.png'], desc: 'Jet ski de alta performance com motor supercharger, capacidade para 3 pessoas e acabamento de luxo.', notes: 'Disponível para entrega imediata no showroom.' },
-  { id: 'p3', name: 'Quadriciclo Can-Am Outlander 570', category: 'Quadriciclos', line: 'Sport', status: 'Disponível', price: 65000, img: 'assets/quadriciclo.png', gallery: ['assets/quadriciclo.png'], desc: 'Quadriciclo robusto preparado para qualquer terreno, suspensão independente e motor Rotax de alta potência.', notes: '2 unidades em estoque físico.' },
-  { id: 'p4', name: 'UTV Polaris RZR XP 1000', category: 'UTVs', line: 'Sport', status: 'Disponível', price: 120000, img: 'assets/utv.png', gallery: ['assets/utv.png'], desc: 'O máximo em off-road. UTV de alta cilindrada com gaiola de proteção integrada, suspensão ativa de competição.', notes: 'Encomendas com sinal de 30%.' },
-
-  // Linha Pontoon
-  { id: 'p_v_pontoon250', name: 'Pontoon 250', category: 'Embarcações', line: 'Pontoon', status: 'Disponível', price: 180000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_header.png'], desc: 'Pontoon de 25 pés ideal para águas abrigadas, oferecendo o máximo em espaço, estabilidade e conforto para reuniões familiares.', notes: 'Disponibilidade imediata no showroom.' },
-  { id: 'p_v_pontoon320', name: 'Pontoon 320', category: 'Embarcações', line: 'Pontoon', status: 'Disponível', price: 320000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_footer.png'], desc: 'Super pontoon de 32 pés com dois andares (Double Deck), escorregador e capacidade para até 16 passageiros. O clube flutuante definitivo.', notes: 'Prazo de entrega: 60 dias.' },
-
-  // Linha Comfort
-  { id: 'p_v_v195_c', name: 'V195 Comfort', category: 'Embarcações', line: 'Comfort', status: 'Disponível', price: 130000, img: 'assets/lancha.png', gallery: ['assets/lancha.png'], desc: 'Lancha compacta com proa aberta de 19,5 pés, ideal para passeios rápidos e esportes aquáticos.', notes: 'Disponível em 4 cores de estofamento.' },
-  { id: 'p_v_v210_c', name: 'V210 Comfort', category: 'Embarcações', line: 'Comfort', status: 'Disponível', price: 160000, img: 'assets/lancha.png', gallery: ['assets/lancha.png'], desc: 'Evolução natural do mercado de 21 pés. Cockpit otimizado com assentos giratórios e excelente aproveitamento de espaço.', notes: 'Entregue com capota retrátil.' },
-  { id: 'p_v_v215_cc', name: 'V215 Cabin Comfort', category: 'Embarcações', line: 'Comfort', status: 'Disponível', price: 195000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_header.png'], desc: 'Lancha de 21,5 pés com cabine compacta para pernoite de casal. Alia a esportividade com a praticidade de abrigo.', notes: 'Opção de sanitário químico na cabine.' },
-  { id: 'p_v_v230_g2c', name: 'V230 GII Comfort', category: 'Embarcações', line: 'Comfort', status: 'Disponível', price: 230000, img: 'assets/lancha.png', gallery: ['assets/lancha.png'], desc: 'Modelo de 23 pés de segunda geração com acabamento aprimorado, lines modernas e casco projetado para navegação suave.', notes: 'Homologada para 8 passageiros.' },
-  { id: 'p_v_v250_c', name: 'V250 Comfort', category: 'Embarcações', line: 'Comfort', status: 'Disponível', price: 290000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_footer.png'], desc: 'Lancha de 25 pés com amplo cockpit, solário de popa, acabamento refinado e capacidade para até 11 passageiros.', notes: 'Disponível para test-drive.' },
-  { id: 'p_v_v265_cc', name: 'V265 Cabin Comfort', category: 'Embarcações', line: 'Comfort', status: 'Disponível', price: 360000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_header.png'], desc: 'Uma das cabinadas mais tradicionais da categoria. Cabine espaçosa com cama de casal, banheiro fechado e minicozinha.', notes: 'Prazo médio de laminação: 45 dias.' },
-
-  // Linha Sport
-  { id: 'p_v_v250_s', name: 'V250 Sport', category: 'Embarcações', line: 'Sport', status: 'Disponível', price: 280000, img: 'assets/lancha.png', gallery: ['assets/lancha.png'], desc: 'Edição esportiva de 25 pés com layout de assentos otimizado para navegação rápida e design agressivo.', notes: 'Disponível com motor de popa de até 300HP.' },
-  { id: 'p_v_v220_surf', name: 'V220 Surf', category: 'Embarcações', line: 'Sport', status: 'Disponível', price: 210000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_footer.png'], desc: 'Desenvolvida especialmente para a prática de wakeboard e wakesurf. Conta com flaps específicos e sistema de lastro.', notes: 'Torre de wakeboard em alumínio inclusa.' },
-
-  // Linha Crossover
-  { id: 'p_v_v205_cross', name: 'V205 Crossover', category: 'Embarcações', line: 'Crossover', status: 'Disponível', price: 180000, img: 'assets/lancha.png', gallery: ['assets/lancha.png'], desc: 'A crossover de entrada da marca. Excelente espaço interno de proa aberta combinada com soluções inteligentes de cabine de apoio.', notes: 'Sucesso de vendas.' },
-  { id: 'p_v_v300_cross', name: 'V300 Crossover', category: 'Embarcações', line: 'Crossover', status: 'Disponível', price: 480000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_header.png'], desc: 'Day Cruiser que combina a conveniência de uma proa aberta com o conforto de uma cabine com pé-direito alto.', notes: 'Lancha mais vendida da categoria no Brasil.' },
-  { id: 'p_v_v370_cross', name: 'V370 Crossover', category: 'Embarcações', line: 'Crossover', status: 'Disponível', price: 780000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_footer.png'], desc: 'Crossover espetacular de 37 pés com solário de proa integrado, cabine luxuosa com pernoite para 4 pessoas e ampla praça de popa.', notes: 'Motorização parelha recomendada.' },
-  { id: 'p_v_v400_cross', name: 'V400 Crossover', category: 'Embarcações', line: 'Crossover', status: 'Disponível', price: 980000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_header.png'], desc: 'Embarcação premium de grande porte com cabine de luxo, espaço gourmet na popa e teto rígido elétrico. O máximo de conforto e status.', notes: 'Prazo de entrega: 90 dias.' },
-  { id: 'p_v_v550_cross', name: 'V550 Crossover', category: 'Embarcações', line: 'Crossover', status: 'Disponível', price: 4500000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_footer.png'], desc: 'Iate Crossover monumental de 55 pés. Layout integrado de convés aberto com suítes de alto luxo abaixo do deck.', notes: 'Faturamento direto de fábrica.' },
-
-  // Linha Premium
-  { id: 'p_v_v300_dc', name: 'V300 Day Cruiser', category: 'Embarcações', line: 'Premium', status: 'Disponível', price: 510000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_header.png'], desc: 'Versão cabinada clássica de 30 pés. Cabine fechada luxuosa, banheiro completo e cockpit perfeito para navegação oceânica.', notes: 'Acabamento interno customizável.' },
-  { id: 'p_v_v400_ht', name: 'V400 HT', category: 'Embarcações', line: 'Premium', status: 'Disponível', price: 1100000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_footer.png'], desc: 'Lancha Hard Top de 40 pés com fechamento traseiro em vidro, ar-condicionado de alta capacidade e gerador inclusos.', notes: 'Modelo de showroom disponível.' },
-  { id: 'p_v_v450_p', name: 'V450 Premium', category: 'Embarcações', line: 'Premium', status: 'Disponível', price: 1800000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_header.png'], desc: 'Iate premium de 45 pés com design italiano, plataforma de popa submergível e acabamento interno em couro e madeira nobre.', notes: 'Prazo de construção: 120 dias.' },
-  { id: 'p_v_v550_fly', name: 'V550 Flybridge', category: 'Embarcações', line: 'Premium', status: 'Disponível', price: 4800000, img: 'assets/lancha.png', gallery: ['assets/lancha.png', 'assets/yacht_footer.png'], desc: 'Flagship da Ventura Marine com 55 pés e Flybridge gigante. 3 cabines, 2 banheiros e salão principal totalmente integrado.', notes: 'Opção de motorização IPS.' }
-];
+const DEFAULT_PRODUCTS = [];
 
 const DEFAULT_CLIENTS = [
   {
@@ -331,33 +297,10 @@ class AppStore {
       }
     }
 
-    // --- AUTO-MIGRATION FOR VENTURA MARINE PRODUCTS CATALOG ---
-    if (this.data.products) {
-      let addedCount = 0;
-      DEFAULT_PRODUCTS.forEach(dp => {
-        const exists = this.data.products.some(p => p.name === dp.name);
-        if (!exists) {
-          this.data.products.push(JSON.parse(JSON.stringify(dp)));
-          addedCount++;
-        }
-      });
-      
-      this.data.products.forEach(p => {
-        if (!p.line) {
-          if (p.name.includes('Pontoon')) p.line = 'Pontoon';
-          else if (p.name.includes('Comfort') || p.name.includes('FS 275')) p.line = 'Comfort';
-          else if (p.name.includes('Sport') || p.name.includes('Surf') || p.name.includes('Yamaha') || p.name.includes('Can-Am') || p.name.includes('Polaris')) p.line = 'Sport';
-          else if (p.name.includes('Crossover') || p.name.includes('Coral 36')) p.line = 'Crossover';
-          else if (p.name.includes('Cruiser') || p.name.includes('HT') || p.name.includes('Premium') || p.name.includes('Flybridge')) p.line = 'Premium';
-          else p.line = 'Nenhuma';
-        }
-        if (!p.status) p.status = 'Disponível';
-        if (!p.gallery) p.gallery = [p.img || 'assets/lancha.png'];
-      });
-      
-      if (addedCount > 0) {
-        migrated = true;
-      }
+    // --- FORCE REMOVE ALL PRODUCTS FROM CATALOG ---
+    if (this.data.products && this.data.products.length > 0) {
+      this.data.products = [];
+      migrated = true;
     }
 
     if (migrated) {
@@ -640,8 +583,6 @@ function renderActiveView(tabId) {
     renderKanbanBoard();
   } else if (tabId === 'followups') {
     renderFollowupsPanel();
-  } else if (tabId === 'produtos') {
-    renderProductsCatalog();
   } else if (tabId === 'vendas') {
     renderSalesHistory();
   } else if (tabId === 'scripts') {
@@ -1162,81 +1103,6 @@ function rescheduleFollowup(id) {
   openModal('followup');
 }
 
-// --- VIEW: PRODUTOS ---
-let currentProductCatFilter = 'all';
-
-function renderProductsCatalog() {
-  const grid = document.getElementById('products-catalog-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-
-  const filtered = store.data.products.filter(p => {
-    return currentProductCatFilter === 'all' || p.category === currentProductCatFilter;
-  });
-
-  filtered.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    
-    const hasGallery = p.gallery && p.gallery.length > 1;
-    const galleryHtml = hasGallery ? `
-      <div class="product-gallery-thumbnails">
-        ${p.gallery.map((gImg, idx) => `
-          <img class="product-thumbnail" src="${gImg}" onmouseover="this.closest('.product-card').querySelector('.product-card-img').src='${gImg}'" onclick="this.closest('.product-card').querySelector('.product-card-img').src='${gImg}'" alt="Thumb ${idx + 1}">
-        `).join('')}
-      </div>
-    ` : '';
-
-    const statusClass = (p.status || 'Disponível').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
-
-    card.innerHTML = `
-      <div class="product-img-wrapper">
-        <img class="product-card-img" src="${p.img}" alt="${p.name}">
-        <span class="product-category-tag">${p.category}</span>
-        <span class="product-status-tag status-${statusClass}">${p.status || 'Disponível'}</span>
-        ${galleryHtml}
-      </div>
-      <div class="product-card-body">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:4px; margin-bottom: 4px;">
-          <h3 class="product-card-title">${p.name}</h3>
-          <span class="product-line-badge">${p.line || 'Geral'}</span>
-        </div>
-        <p class="product-card-desc" title="${p.desc}">${p.desc}</p>
-        <span class="product-card-price">${formatCurrency(p.price)}</span>
-        <div style="font-size:10px; color:var(--text-muted); border-top:1px dashed rgba(212,176,106,0.1); padding-top:6px; margin-top:4px;">
-          Obs: ${p.notes || 'Sem observações.'}
-        </div>
-        <div class="product-card-actions" style="display:flex; gap:8px; margin-top:12px; border-top:1px solid rgba(212, 176, 106, 0.08); padding-top:10px;">
-          <button class="followup-btn btn-edit-product" data-id="${p.id}" style="flex:1;">Editar</button>
-          <button class="followup-btn btn-delete-product" data-id="${p.id}" style="flex:1; border-color:var(--stage-lost); color:var(--stage-lost);">Excluir</button>
-        </div>
-      </div>
-    `;
-
-    card.querySelector('.btn-edit-product').addEventListener('click', (e) => {
-      e.stopPropagation();
-      editProduct(p.id);
-    });
-
-    card.querySelector('.btn-delete-product').addEventListener('click', (e) => {
-      e.stopPropagation();
-      deleteProduct(p.id);
-    });
-
-    grid.appendChild(card);
-  });
-}
-
-// Set up product filter actions
-document.querySelectorAll('#product-category-filters .filter-tag').forEach(tag => {
-  tag.addEventListener('click', () => {
-    document.querySelectorAll('#product-category-filters .filter-tag').forEach(t => t.classList.remove('active'));
-    tag.classList.add('active');
-    currentProductCatFilter = tag.getAttribute('data-category');
-    renderProductsCatalog();
-  });
-});
-
 // --- VIEW: VENDAS ---
 function renderSalesHistory() {
   const tbody = document.getElementById('sales-history-table-body');
@@ -1485,7 +1351,7 @@ document.getElementById('btn-cfg-reset-db').addEventListener('click', () => {
 
 
 // ==================== 5. CONTROLES DE MODAIS & DRAWER ====================
-const MODAL_IDS = ['client', 'sale-won', 'sale-lost', 'followup', 'visit', 'product'];
+const MODAL_IDS = ['client', 'sale-won', 'sale-lost', 'followup', 'visit'];
 
 function openModal(type) {
   closeAllModals();
@@ -1529,7 +1395,6 @@ document.getElementById('btn-modal-won-cancel').addEventListener('click', () => 
 document.getElementById('btn-modal-lost-cancel').addEventListener('click', () => closeModal('sale-lost'));
 document.getElementById('btn-modal-follow-cancel').addEventListener('click', () => closeModal('followup'));
 document.getElementById('btn-modal-visit-cancel').addEventListener('click', () => closeModal('visit'));
-document.getElementById('btn-modal-prod-cancel').addEventListener('click', () => closeModal('product'));
 
 // --- TRIGGER FORMS TRIGGERS ---
 function triggerSaleWon(clientId) {
@@ -1803,165 +1668,6 @@ document.getElementById('form-new-visit').addEventListener('submit', (e) => {
   renderDashboard();
 });
 
-document.getElementById('form-new-product').addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const pId = document.getElementById('prod-id').value;
-  const name = document.getElementById('prod-name').value;
-  const category = document.getElementById('prod-category').value;
-  const line = document.getElementById('prod-line').value;
-  const status = document.getElementById('prod-status').value;
-  const price = parseFloat(document.getElementById('prod-price').value);
-  const defaultImg = document.getElementById('prod-image-select').value;
-  const desc = document.getElementById('prod-desc').value;
-  const notes = document.getElementById('prod-notes').value;
-
-  const fileInput = document.getElementById('prod-image-file');
-  const galleryInput = document.getElementById('prod-gallery-file');
-
-  const readGalleryFiles = (files, callback) => {
-    if (!files || files.length === 0) {
-      callback([]);
-      return;
-    }
-    let loaded = 0;
-    const results = [];
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        results.push(event.target.result);
-        loaded++;
-        if (loaded === files.length) {
-          callback(results);
-        }
-      };
-      reader.readAsDataURL(files[i]);
-    }
-  };
-
-  const saveProduct = (imgSrc, galleryImages) => {
-    if (pId) {
-      // Editing existing product
-      const existingProd = store.data.products.find(prod => prod.id === pId);
-      if (existingProd) {
-        existingProd.name = name;
-        existingProd.category = category;
-        existingProd.line = line;
-        existingProd.status = status;
-        existingProd.price = price;
-        
-        const selectValue = document.getElementById('prod-image-select').value;
-        if (imgSrc) {
-          existingProd.img = imgSrc;
-        } else if (selectValue !== 'custom') {
-          existingProd.img = selectValue;
-        }
-        
-        if (galleryImages && galleryImages.length > 0) {
-          existingProd.gallery = galleryImages;
-        } else if (!existingProd.gallery) {
-          existingProd.gallery = [existingProd.img || 'assets/lancha.png'];
-        }
-        
-        existingProd.desc = desc;
-        existingProd.notes = notes;
-        
-        addNotification('Veículo atualizado', `${name} foi editado com sucesso.`, 'Agora');
-      }
-    } else {
-      // Creating new product
-      const mainImg = imgSrc || defaultImg;
-      const newProd = {
-        id: 'p_' + Date.now(),
-        name,
-        category,
-        line,
-        status,
-        price,
-        img: mainImg,
-        gallery: (galleryImages && galleryImages.length > 0) ? galleryImages : [mainImg],
-        desc,
-        notes
-      };
-
-      store.data.products.push(newProd);
-      addNotification('Novo veículo cadastrado', `${name} (${category}) foi adicionado ao catálogo.`, 'Agora');
-    }
-
-    store.save();
-    closeModal('product');
-
-    // Populate options elsewhere
-    populateProductsDropdown();
-    
-    const activeTab = document.querySelector('.menu-item.active').getAttribute('data-tab');
-    renderActiveView(activeTab);
-  };
-
-  readGalleryFiles(galleryInput.files, (galleryImages) => {
-    if (fileInput.files && fileInput.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        saveProduct(event.target.result, galleryImages);
-      };
-      reader.readAsDataURL(fileInput.files[0]);
-    } else {
-      saveProduct(null, galleryImages);
-    }
-  });
-});
-
-function editProduct(productId) {
-  const p = store.data.products.find(prod => prod.id === productId);
-  if (!p) return;
-
-  document.getElementById('prod-id').value = p.id;
-  document.getElementById('prod-name').value = p.name;
-  document.getElementById('prod-category').value = p.category;
-  document.getElementById('prod-line').value = p.line || 'Comfort';
-  document.getElementById('prod-status').value = p.status || 'Disponível';
-  document.getElementById('prod-price').value = p.price;
-  document.getElementById('prod-desc').value = p.desc;
-  document.getElementById('prod-notes').value = p.notes || '';
-  
-  document.getElementById('prod-image-file').value = ''; // Reset file upload
-  document.getElementById('prod-gallery-file').value = ''; // Reset gallery upload
-  
-  const select = document.getElementById('prod-image-select');
-  const customOpt = select.querySelector('option[value="custom"]');
-  if (customOpt) customOpt.remove();
-
-  const isDefaultImg = ['assets/lancha.png', 'assets/jetski.png', 'assets/quadriciclo.png', 'assets/utv.png'].includes(p.img);
-  if (isDefaultImg) {
-    select.value = p.img;
-  } else {
-    // Custom photo
-    const opt = document.createElement('option');
-    opt.value = 'custom';
-    opt.innerText = '✨ Imagem Carregada do Computador';
-    opt.selected = true;
-    select.appendChild(opt);
-    select.value = 'custom';
-  }
-
-  document.getElementById('modal-product-title').innerText = 'Editar Veículo / Embarcação';
-  openModal('product');
-}
-
-function deleteProduct(productId) {
-  if (confirm('Tem certeza de que deseja excluir este veículo do catálogo?')) {
-    const idx = store.data.products.findIndex(prod => prod.id === productId);
-    if (idx !== -1) {
-      const name = store.data.products[idx].name;
-      store.data.products.splice(idx, 1);
-      store.save();
-      addNotification('Veículo excluído', `${name} foi removido do catálogo.`, 'Agora');
-      renderProductsCatalog();
-      populateProductsDropdown();
-    }
-  }
-}
-
 function deleteClient(clientId) {
   const client = store.data.clients.find(c => c.id === clientId);
   if (!client) return;
@@ -2103,7 +1809,6 @@ document.getElementById('drawer-client-overlay').addEventListener('click', close
 
 // ==================== 6. BOTÕES DE ACELERAÇÃO (QUICK ACTIONS) ====================
 document.getElementById('btn-quick-new-client').addEventListener('click', () => {
-  populateProductsDropdown();
   document.getElementById('form-client-opportunity').reset();
   document.getElementById('form-client-id').value = '';
   document.getElementById('modal-client-title').innerText = 'Cadastrar Novo Lead';
@@ -2116,7 +1821,6 @@ document.getElementById('btn-add-client-tab').addEventListener('click', () => {
 });
 
 document.getElementById('btn-quick-new-opportunity').addEventListener('click', () => {
-  populateProductsDropdown();
   document.getElementById('form-client-opportunity').reset();
   document.getElementById('form-client-id').value = '';
   document.getElementById('modal-client-title').innerText = 'Nova Oportunidade Comercial';
@@ -2148,16 +1852,6 @@ document.getElementById('btn-quick-new-followup').addEventListener('click', () =
 
 document.getElementById('btn-add-followup-tab').addEventListener('click', () => {
   document.getElementById('btn-quick-new-followup').click();
-});
-
-document.getElementById('btn-add-product-tab').addEventListener('click', () => {
-  document.getElementById('form-new-product').reset();
-  const select = document.getElementById('prod-image-select');
-  const customOpt = select.querySelector('option[value="custom"]');
-  if (customOpt) customOpt.remove();
-  document.getElementById('prod-id').value = '';
-  document.getElementById('modal-product-title').innerText = 'Cadastrar Veículo / Embarcação';
-  openModal('product');
 });
 
 // Trigger sales completion manually from top bar
@@ -2216,16 +1910,6 @@ document.getElementById('btn-mark-lost-sale').addEventListener('click', () => {
 
 
 // --- UTILITY DROPDOWN POPULATORS ---
-function populateProductsDropdown() {
-  const select = document.getElementById('form-c-product');
-  select.innerHTML = '';
-  store.data.products.forEach(p => {
-    const opt = document.createElement('option');
-    opt.value = p.name;
-    opt.innerText = `${p.name} - ${formatCurrency(p.price)}`;
-    select.appendChild(opt);
-  });
-}
 
 function populateClientsDropdown(selectId, excludeWonLost = false) {
   const select = document.getElementById(selectId);

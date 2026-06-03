@@ -94,10 +94,7 @@
           <svg viewBox="0 0 24 24"><path d="M22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72zM7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM12.5 8H11v6l4.75 2.85.75-1.23-4-2.37V8zM12 4c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg>
           Follow-ups
         </li>
-        <li class="menu-item" data-tab="produtos" id="menu-produtos">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
-          Produtos
-        </li>
+
         <li class="menu-item" data-tab="vendas" id="menu-vendas">
           <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91v5.13h2V9L12 3z"/></svg>
           Vendas e Comissões
@@ -586,30 +583,7 @@
         </div>
       </section>
       
-      <!-- ==================== VIEW 5: PRODUTOS ==================== -->
-      <section id="section-produtos" class="content-section">
-        <div class="section-title-row">
-          <div class="section-title">
-            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-5 14H4v-4h11v4zm0-5H4V9h11v4zm5 5h-4V9h4v9z"/></svg>
-            Catálogo de Veículos & Embarcações
-          </div>
-          <button class="btn-primary" id="btn-add-product-tab">+ Novo Veículo</button>
-        </div>
-        
-        <div class="list-filter-row">
-          <div class="filter-tags-group" id="product-category-filters">
-            <button class="filter-tag active" data-category="all">Todos</button>
-            <button class="filter-tag" data-category="Embarcações">⛵ Embarcações</button>
-            <button class="filter-tag" data-category="Jet Skis">🌊 Jet Skis</button>
-            <button class="filter-tag" data-category="Quadriciclos">⛰️ Quadriciclos</button>
-            <button class="filter-tag" data-category="UTVs">🚜 UTVs</button>
-          </div>
-        </div>
-        
-        <div class="products-grid" id="products-catalog-grid">
-          <!-- Dynamically populated products cards -->
-        </div>
-      </section>
+
       
       <!-- ==================== VIEW 6: VENDAS ==================== -->
       <section id="section-vendas" class="content-section">
@@ -1018,10 +992,8 @@
           
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label">Produto de Interesse *</label>
-              <select class="form-control" id="form-c-product" required>
-                <!-- Dynamically populated from products store -->
-              </select>
+              <label class="form-label">Item / Produto de Interesse *</label>
+              <input type="text" class="form-control" id="form-c-product" required placeholder="Ex: Lancha Coral 36 Crossover">
             </div>
             <div class="form-group">
               <label class="form-label">Valor Estimado do Negócio (R$) *</label>
@@ -1270,107 +1242,7 @@
       </div>
     </div>
   </div>
-  
-  
-  <!-- ==================== MODAL: CADASTRO PRODUTO ==================== -->
-  <div class="modal-overlay" id="modal-product-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title">
-          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-          <span id="modal-product-title">Cadastrar Veículo / Embarcação</span>
-        </div>
-        <button class="modal-close" id="btn-modal-prod-close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="form-new-product">
-          <input type="hidden" id="prod-id">
-          <div class="form-group">
-            <label class="form-label">Nome do Modelo *</label>
-            <input type="text" class="form-control" id="prod-name" required placeholder="Ex: UTV Polaris RZR XP 1000">
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Categoria *</label>
-              <select class="form-control" id="prod-category" required>
-                <option value="Embarcações">Embarcações</option>
-                <option value="Jet Skis">Jet Skis</option>
-                <option value="Quadriciclos">Quadriciclos</option>
-                <option value="UTVs">UTVs</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Preço Sugerido (R$) *</label>
-              <input type="number" class="form-control" id="prod-price" required placeholder="Ex: 120000">
-            </div>
-          </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Linha de Produtos *</label>
-              <select class="form-control" id="prod-line" required>
-                <option value="Comfort">Comfort</option>
-                <option value="Sport">Sport</option>
-                <option value="Crossover">Crossover</option>
-                <option value="Premium">Premium</option>
-                <option value="Pontoon">Pontoon</option>
-                <option value="Nenhuma">Nenhuma</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Status *</label>
-              <select class="form-control" id="prod-status" required>
-                <option value="Disponível">Disponível</option>
-                <option value="Sob Encomenda">Sob Encomenda</option>
-                <option value="Indisponível">Indisponível</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Imagem Principal *</label>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <select class="form-control" id="prod-image-select">
-                <option value="assets/lancha.png">⛵ Foto Padrão de Lancha (Speedboat)</option>
-                <option value="assets/jetski.png">🌊 Foto Padrão de Jet Ski (Yamaha)</option>
-                <option value="assets/quadriciclo.png">⛰️ Foto Padrão de Quadriciclo (Can-Am)</option>
-                <option value="assets/utv.png">🚜 Foto Padrão de UTV (Polaris)</option>
-              </select>
-              <div style="text-align:center; font-size:10px; color:var(--text-muted); font-weight:600; margin: 2px 0;">— OU —</div>
-              <div style="display:flex; flex-direction:column; gap:4px;">
-                <label class="form-label" style="font-size:10px; color:var(--gold-primary);">Fazer upload de foto do computador:</label>
-                <input type="file" class="form-control" id="prod-image-file" accept="image/*">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Galeria de Imagens (Opcional)</label>
-            <div style="display:flex; flex-direction:column; gap:4px;">
-              <input type="file" class="form-control" id="prod-gallery-file" accept="image/*" multiple>
-              <span style="font-size:10px; color:var(--text-muted);">Selecione múltiplos arquivos para criar um carrossel de fotos interativo no card do veículo.</span>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Descrição Comercial *</label>
-            <textarea class="form-control" id="prod-desc" required placeholder="Descreva os itens de série, motorização, suspensão ou adicionais inclusos..."></textarea>
-          </div>
-          
-          <div class="form-group">
-            <label class="form-label">Observações Internas (Estoque/Prazos)</label>
-            <textarea class="form-control" id="prod-notes" placeholder="Informações de disponibilidade, prazo de entrega da fábrica, etc..."></textarea>
-          </div>
-          
-          <div class="form-actions">
-            <button type="button" class="btn-secondary" id="btn-modal-prod-cancel">Cancelar</button>
-            <button type="submit" class="btn-primary">Adicionar Veículo</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <script src="app.js"></script>
 </body>
