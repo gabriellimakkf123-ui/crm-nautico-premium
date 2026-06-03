@@ -723,5 +723,13 @@
       "time": "Ontem",
       "unread": false
     }
+  ],
+  "users": [
+    {
+      "username": "gabriel.lima",
+      "password": "280555",
+      "name": "Gabriel Lima",
+      "role": "admin"
+    }
   ]
 }

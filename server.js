@@ -107,6 +107,9 @@ const DEFAULT_STORE_DATA = {
   },
   notifications: [
     { id: 'n1', title: 'Integração Ativa 🚀', text: 'Servidor backend e Webhook prontos para receber mensagens.', time: 'Agora', unread: true }
+  ],
+  users: [
+    { username: 'gabriel.lima', password: '280555', name: 'Gabriel Lima', role: 'admin' }
   ]
 };
 
@@ -118,7 +121,15 @@ function loadDatabase() {
   }
   try {
     const raw = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(raw);
+    const data = JSON.parse(raw);
+    
+    // Migração automática para adicionar chave de usuários se não existir
+    if (!data.users || data.users.length === 0) {
+      data.users = DEFAULT_STORE_DATA.users;
+      saveDatabase(data);
+      console.log('Migração: Adicionada tabela de usuários padrão com administrador.');
+    }
+    return data;
   } catch (e) {
     console.error('Erro ao ler banco db.json. Reiniciando banco.', e);
     return DEFAULT_STORE_DATA;
@@ -136,14 +147,63 @@ function saveDatabase(data) {
   }
 }
 
+// Função auxiliar para verificar credenciais via Basic Auth
+function isAuthenticated(req) {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return false;
+  
+  try {
+    const token = authHeader.replace('Basic ', '');
+    const decoded = Buffer.from(token, 'base64').toString('utf8');
+    const [username, password] = decoded.split(':');
+    
+    const db = loadDatabase();
+    const user = db.users.find(u => u.username === username && u.password === password);
+    return user ? user : false;
+  } catch (e) {
+    return false;
+  }
+}
+
+// ROTA DE LOGIN: POST /api/login - Autentica usuário e retorna perfil básico
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ success: false, message: 'Usuário e senha são obrigatórios.' });
+  }
+
+  const db = loadDatabase();
+  const user = db.users.find(u => u.username === username && u.password === password);
+  if (user) {
+    res.json({
+      success: true,
+      user: {
+        name: user.name,
+        username: user.username,
+        role: user.role
+      }
+    });
+  } else {
+    res.status(401).json({ success: false, message: 'Usuário ou senha inválidos.' });
+  }
+});
+
 // ROTA 1: GET STORE - Retorna todo o estado do CRM
 app.get('/api/store', (req, res) => {
+  const user = isAuthenticated(req);
+  if (!user) {
+    return res.status(401).json({ status: 'error', message: 'Não autorizado.' });
+  }
   const data = loadDatabase();
   res.json(data);
 });
 
 // ROTA 2: POST STORE - Atualiza o estado completo do CRM
 app.post('/api/store', (req, res) => {
+  const user = isAuthenticated(req);
+  if (!user) {
+    return res.status(401).json({ status: 'error', message: 'Não autorizado.' });
+  }
   const success = saveDatabase(req.body);
   if (success) {
     res.json({ status: 'ok', message: 'Dados salvos com sucesso.' });
@@ -192,17 +252,48 @@ const body = req.body;
         const db = loadDatabase();
         
         // Tentamos mapear o interesse em algum veículo específico da base
-        let matchedProduct = db.products[3]; // Padrão: Pontoon 250
-        let matchedPrice = matchedProduct.price;
+        let matchedProduct = db.products.find(p => p.id === 'p_v_pontoon250') || db.products[0];
+        let matchedPrice = matchedProduct ? matchedProduct.price : 0;
 
-        for (const p of db.products) {
-          // Busca case-insensitive pelo nome do barco na mensagem
-          const cleanProdName = p.name.toLowerCase();
+        if (matchedProduct) {
           const cleanMsgText = messageText.toLowerCase();
-          if (cleanMsgText.includes(cleanProdName) || (p.name.length > 3 && cleanMsgText.includes(p.name.split(' ')[0].toLowerCase()))) {
-            matchedProduct = p;
-            matchedPrice = p.price;
-            break;
+          let foundProduct = null;
+
+          // 1. Busca pelo nome exato/completo do produto na mensagem (ex: "pontoon 320")
+          for (const p of db.products) {
+            const cleanProdName = p.name.toLowerCase();
+            if (cleanMsgText.includes(cleanProdName)) {
+              foundProduct = p;
+              break;
+            }
+          }
+
+          // 2. Se não encontrou pelo nome completo, tenta se a mensagem contém todas as palavras significativas do nome
+          if (!foundProduct) {
+            for (const p of db.products) {
+              const words = p.name.toLowerCase().split(/\s+/);
+              const matchesAllWords = words.every(word => word.length > 2 && cleanMsgText.includes(word));
+              if (matchesAllWords) {
+                foundProduct = p;
+                break;
+              }
+            }
+          }
+
+          // 3. Se ainda não encontrou, tenta pelo primeiro termo do nome se for longo o suficiente (ex: "pontoon")
+          if (!foundProduct) {
+            for (const p of db.products) {
+              const firstWord = p.name.split(/\s+/)[0].toLowerCase();
+              if (firstWord.length > 3 && cleanMsgText.includes(firstWord)) {
+                foundProduct = p;
+                break;
+              }
+            }
+          }
+
+          if (foundProduct) {
+            matchedProduct = foundProduct;
+            matchedPrice = foundProduct.price;
           }
         }
 
@@ -254,6 +345,8 @@ const body = req.body;
 });
 
 app.listen(PORT, () => {
+  // Inicializa o banco de dados e executa migrações na inicialização do servidor
+  loadDatabase();
   console.log(`=======================================================`);
   console.log(` Servidor CRM Náutico Premium rodando na porta ${PORT} `);
   console.log(` Webhook do WhatsApp disponível em:                   `);

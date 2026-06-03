@@ -5,7 +5,7 @@
 
 // ==================== 1. ESTADO DA APLICAÇÃO (STORE) ====================
 const STORAGE_KEY = 'crm_nautico_premium_data';
-const API_URL = 'http://localhost:3000/api';
+const API_URL = `${window.location.origin}/api`;
 
 const DEFAULT_PRODUCTS = [
   // Preserved non-boat products
@@ -245,6 +245,20 @@ class AppStore {
     this.load();
   }
 
+  getAuthHeaders() {
+    const username = localStorage.getItem('crm_user_username');
+    const password = localStorage.getItem('crm_user_password');
+    if (!username || !password) return {};
+    try {
+      return {
+        'Authorization': 'Basic ' + btoa(unescape(encodeURIComponent(username + ':' + password)))
+      };
+    } catch (e) {
+      console.error('Erro ao codificar cabeçalho de autenticação:', e);
+      return {};
+    }
+  }
+
   async load() {
     // 1. Carrega local primeiro para velocidade instantânea
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -261,8 +275,14 @@ class AppStore {
     }
 
     // 2. Tenta carregar os dados mais recentes do servidor backend
+    const headers = this.getAuthHeaders();
+    if (Object.keys(headers).length === 0) {
+      console.warn('Sem credenciais de login para sincronizar com o backend.');
+      return;
+    }
+
     try {
-      const res = await fetch(`${API_URL}/store`);
+      const res = await fetch(`${API_URL}/store`, { headers });
       if (res.ok) {
         const serverData = await res.json();
         this.data = serverData;
@@ -274,9 +294,15 @@ class AppStore {
           const activeTab = activeTabEl.getAttribute('data-tab');
           renderActiveView(activeTab);
         }
+      } else if (res.status === 401) {
+        console.warn('Credenciais inválidas no servidor. Desconectando...');
+        // Opcional: Se der erro de não autorizado na API, limpa a sessão local
+        localStorage.removeItem('crm_user_username');
+        localStorage.removeItem('crm_user_password');
+        checkAuth();
       }
     } catch (e) {
-      console.warn('Servidor backend offline. Usando cache local do navegador.');
+      console.warn('Servidor backend offline ou erro de conexão. Usando cache local do navegador.');
     }
   }
 
@@ -345,9 +371,15 @@ class AppStore {
 
   save() {
     this.saveLocally();
+    const headers = this.getAuthHeaders();
+    if (Object.keys(headers).length === 0) return; // Não envia se não logado
+
     fetch(`${API_URL}/store`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        ...headers
+      },
       body: JSON.stringify(this.data)
     }).catch(e => console.warn('Erro ao sincronizar com o servidor:', e));
   }
@@ -2378,14 +2410,208 @@ function renderUserAvatar() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  // Setup user details from config
-  document.querySelector('.sidebar .user-name').innerText = store.data.config.userName || 'Gabriel Lima';
-  document.querySelector('.sidebar .user-role').innerText = store.data.config.userRole || 'Consultor Náutico';
+// Global user management helpers
+function renderUserMgmtList() {
+  const tbody = document.getElementById('user-mgmt-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const users = store.data.users || [];
   
-  // Set default dates inside headers
+  users.forEach(u => {
+    const tr = document.createElement('tr');
+    tr.style.borderBottom = '1px solid rgba(212, 176, 106, 0.05)';
+    tr.style.fontSize = '12px';
+    
+    const isSelf = u.username === localStorage.getItem('crm_user_username');
+    const deleteBtnHtml = isSelf 
+      ? `<span style="font-size: 10px; color: var(--text-muted); font-style: italic;">Atual (Você)</span>`
+      : `<button class="btn-secondary" style="border-color:var(--stage-lost); color:var(--stage-lost); padding: 4px 8px; font-size:10px; cursor:pointer;" onclick="deleteUser('${u.username}')">Excluir</button>`;
+
+    const roleBadgeHtml = u.role === 'admin' 
+      ? `<span class="user-badge admin">Admin</span>` 
+      : `<span class="user-badge user">Vendedor</span>`;
+
+    tr.innerHTML = `
+      <td style="padding: 12px 8px; font-weight:600; color:var(--text-primary); text-align:left;">${u.name}</td>
+      <td style="padding: 12px 8px; color:var(--text-secondary); text-align:left;">${u.username}</td>
+      <td style="padding: 12px 8px; text-align:left;">${roleBadgeHtml}</td>
+      <td style="padding: 12px 8px; text-align:right;">${deleteBtnHtml}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function deleteUser(username) {
+  if (!confirm(`Tem certeza que deseja excluir o acesso do usuário "${username}"?`)) return;
+  
+  if (store.data.users) {
+    store.data.users = store.data.users.filter(u => u.username !== username);
+    store.save();
+    renderUserMgmtList();
+  }
+}
+
+window.deleteUser = deleteUser;
+
+function checkAuth() {
+  const username = localStorage.getItem('crm_user_username');
+  const token = localStorage.getItem('crm_user_password');
+  const loginOverlay = document.getElementById('login-screen');
+  const appContainer = document.querySelector('.app-container');
+
+  if (!username || !token) {
+    if (loginOverlay) loginOverlay.classList.remove('hidden');
+    if (appContainer) appContainer.style.display = 'none';
+    return false;
+  } else {
+    if (loginOverlay) loginOverlay.classList.add('hidden');
+    if (appContainer) appContainer.style.display = 'flex';
+    return true;
+  }
+}
+
+function initApp() {
+  const userName = localStorage.getItem('crm_user_name') || store.data.config.userName || 'Gabriel Lima';
+  const userRole = localStorage.getItem('crm_user_role') || store.data.config.userRole || 'Consultor Náutico';
+  
+  const sidebarName = document.querySelector('.sidebar .user-name');
+  const sidebarRole = document.querySelector('.sidebar .user-role');
+  if (sidebarName) sidebarName.innerText = userName;
+  if (sidebarRole) sidebarRole.innerText = userRole;
+  
+  const welcomeH1 = document.querySelector('.welcome-box h1');
+  if (welcomeH1) {
+    const firstName = userName.split(' ')[0];
+    welcomeH1.innerText = `Bem-vindo, ${firstName}! 👋`;
+  }
+  
   const todayBr = getTodayBrFormatted();
-  document.getElementById('header-date-label').innerText = `${todayBr} a ${todayBr}`;
+  const dateLabel = document.getElementById('header-date-label');
+  if (dateLabel) dateLabel.innerText = `${todayBr} a ${todayBr}`;
+
+  setupTabs();
+  renderDashboard();
+  initCharts();
+  renderNotifications();
+  renderUserAvatar();
+
+  const role = localStorage.getItem('crm_user_role');
+  const userMgmtPanel = document.getElementById('user-management-panel');
+  if (role === 'admin') {
+    if (userMgmtPanel) userMgmtPanel.style.display = 'grid';
+    renderUserMgmtList();
+  } else {
+    if (userMgmtPanel) userMgmtPanel.style.display = 'none';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Configuração do formulário de Login
+  const loginForm = document.getElementById('login-form');
+  const loginErrorMsg = document.getElementById('login-error-msg');
+  const btnLoginSubmit = document.getElementById('btn-login-submit');
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const usernameInput = document.getElementById('login-username').value.trim();
+      const passwordInput = document.getElementById('login-password').value.trim();
+
+      if (btnLoginSubmit) {
+        btnLoginSubmit.disabled = true;
+        btnLoginSubmit.innerText = 'Autenticando...';
+      }
+      if (loginErrorMsg) loginErrorMsg.style.display = 'none';
+
+      try {
+        const res = await fetch(`${API_URL}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: usernameInput, password: passwordInput })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem('crm_user_username', usernameInput);
+          localStorage.setItem('crm_user_password', passwordInput);
+          localStorage.setItem('crm_user_name', data.user.name);
+          localStorage.setItem('crm_user_role', data.user.role);
+
+          document.getElementById('login-username').value = '';
+          document.getElementById('login-password').value = '';
+
+          checkAuth();
+          await store.load(); // Carrega banco real usando basic auth
+          initApp();
+        } else {
+          const errorData = await res.json();
+          if (loginErrorMsg) {
+            loginErrorMsg.innerText = errorData.message || 'Usuário ou senha incorretos.';
+            loginErrorMsg.style.display = 'block';
+          }
+        }
+      } catch (err) {
+        console.error('Erro de login:', err);
+        if (loginErrorMsg) {
+          loginErrorMsg.innerText = 'Servidor backend offline ou erro de conexão.';
+          loginErrorMsg.style.display = 'block';
+        }
+      } finally {
+        if (btnLoginSubmit) {
+          btnLoginSubmit.disabled = false;
+          btnLoginSubmit.innerText = 'Acessar Sistema';
+        }
+      }
+    });
+  }
+
+  // Configuração do botão de Logout (Sair)
+  const logoutBtn = document.getElementById('btn-sidebar-logout');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('crm_user_username');
+      localStorage.removeItem('crm_user_password');
+      localStorage.removeItem('crm_user_name');
+      localStorage.removeItem('crm_user_role');
+      localStorage.removeItem(STORAGE_KEY); // Limpa cache local do CRM para forçar recarga limpa
+      window.location.reload();
+    });
+  }
+
+  // Configuração do formulário de cadastro de login
+  const userCreateForm = document.getElementById('user-create-form');
+  if (userCreateForm) {
+    userCreateForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('usr-new-name').value.trim();
+      const username = document.getElementById('usr-new-username').value.trim();
+      const password = document.getElementById('usr-new-password').value.trim();
+      const role = document.getElementById('usr-new-role').value;
+
+      if (!name || !username || !password) return;
+
+      if (!store.data.users) {
+        store.data.users = [];
+      }
+
+      const exists = store.data.users.some(u => u.username === username);
+      if (exists) {
+        alert('Este nome de usuário já está cadastrado.');
+        return;
+      }
+
+      store.data.users.push({ name, username, password, role });
+      store.save();
+
+      document.getElementById('usr-new-name').value = '';
+      document.getElementById('usr-new-username').value = '';
+      document.getElementById('usr-new-password').value = '';
+
+      renderUserMgmtList();
+      alert(`Usuário "${name}" cadastrado com sucesso!`);
+    });
+  }
 
   // Notification dropdown toggle
   const notifBtn = document.getElementById('btn-notifications');
@@ -2393,24 +2619,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (notifBtn && notifDropdown) {
     notifBtn.addEventListener('click', (e) => {
-      // Toggle dropdown
       notifDropdown.classList.toggle('active');
       e.stopPropagation();
     });
 
     notifDropdown.addEventListener('click', (e) => {
-      e.stopPropagation(); // Prevent closing when clicking dropdown items
+      e.stopPropagation();
     });
   }
 
-  // Hide notification dropdown when clicking outside
   document.addEventListener('click', () => {
     if (notifDropdown) {
       notifDropdown.classList.remove('active');
     }
   });
 
-  // Mark all notifications as read
   const markAllReadBtn = document.getElementById('btn-mark-all-read');
   if (markAllReadBtn) {
     markAllReadBtn.addEventListener('click', () => {
@@ -2422,7 +2645,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Avatar upload listener
   const avatarUploader = document.getElementById('avatar-uploader');
   if (avatarUploader) {
     avatarUploader.addEventListener('change', (e) => {
@@ -2439,7 +2661,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Won sale value recalculation listener
   const wonSaleValueInput = document.getElementById('won-sale-value');
   if (wonSaleValueInput) {
     wonSaleValueInput.addEventListener('input', () => {
@@ -2450,7 +2671,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Drawer delete client listener
   const drawerDeleteBtn = document.getElementById('btn-drawer-delete-client');
   if (drawerDeleteBtn) {
     drawerDeleteBtn.addEventListener('click', () => {
@@ -2459,9 +2679,8 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  setupTabs();
-  renderDashboard();
-  initCharts();
-  renderNotifications();
-  renderUserAvatar();
+  // Executa checagem de login inicial
+  if (checkAuth()) {
+    initApp();
+  }
 });
