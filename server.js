@@ -2,11 +2,46 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const { MongoClient } = require('mongodb');
 
 const app = express();
 const PORT = 3000;
 const DB_PATH = path.join(__dirname, 'db.json');
 const VERIFY_TOKEN = 'crm_nautico_token'; // Token para validar o webhook no Meta Developers Portal
+
+// Configurações do MongoDB Atlas (Modo Híbrido)
+const MONGODB_URI = process.env.MONGODB_URI;
+let mongoClient = null;
+let mongoDb = null;
+const COLLECTION_NAME = 'crm_data';
+const DOCUMENT_ID = 'crm_master_data';
+
+async function connectToMongo() {
+  if (!MONGODB_URI) {
+    console.log('Modo de Banco de Dados: LOCAL (db.json)');
+    return false;
+  }
+  try {
+    console.log('Tentando conectar ao MongoDB Atlas...');
+    mongoClient = new MongoClient(MONGODB_URI);
+    await mongoClient.connect();
+    
+    // Pega o nome do banco de dados da string ou usa crm_db padrão
+    const dbName = MONGODB_URI.includes('?') 
+      ? MONGODB_URI.split('/').pop().split('?')[0] || 'crm_db'
+      : MONGODB_URI.split('/').pop() || 'crm_db';
+      
+    mongoDb = mongoClient.db(dbName);
+    console.log(`Conectado ao MongoDB no banco "${dbName}"!`);
+    console.log('Modo de Banco de Dados: NUVEM (MongoDB Atlas)');
+    return true;
+  } catch (e) {
+    console.error('Falha ao conectar no MongoDB Atlas. Mantendo modo local (db.json). Erro:', e.message);
+    mongoClient = null;
+    mongoDb = null;
+    return false;
+  }
+}
 
 app.use(cors());
 // Limite alto para suportar uploads de imagens em Base64
@@ -113,8 +148,34 @@ const DEFAULT_STORE_DATA = {
   ]
 };
 
-// Carrega ou inicializa o db.json
-function loadDatabase() {
+// Carrega ou inicializa o banco de dados (Modo Híbrido)
+async function loadDatabase() {
+  if (mongoDb) {
+    try {
+      const collection = mongoDb.collection(COLLECTION_NAME);
+      const data = await collection.findOne({ _id: DOCUMENT_ID });
+      if (!data) {
+        // Inicializa o MongoDB com a massa de dados padrão
+        const initialDoc = { _id: DOCUMENT_ID, ...DEFAULT_STORE_DATA };
+        await collection.insertOne(initialDoc);
+        return DEFAULT_STORE_DATA;
+      }
+      
+      // Migração automática para adicionar chave de usuários se não existir no MongoDB
+      if (!data.users || data.users.length === 0) {
+        data.users = DEFAULT_STORE_DATA.users;
+        await collection.replaceOne({ _id: DOCUMENT_ID }, data);
+        console.log('Migração MongoDB: Adicionada tabela de usuários padrão com administrador.');
+      }
+      
+      delete data._id; // Remove o ID do MongoDB para compatibilidade com o frontend
+      return data;
+    } catch (e) {
+      console.error('Erro ao ler dados no MongoDB Atlas. Usando fallback local...', e.message);
+    }
+  }
+
+  // Fallback Local (db.json)
   if (!fs.existsSync(DB_PATH)) {
     fs.writeFileSync(DB_PATH, JSON.stringify(DEFAULT_STORE_DATA, null, 2), 'utf8');
     return DEFAULT_STORE_DATA;
@@ -123,11 +184,11 @@ function loadDatabase() {
     const raw = fs.readFileSync(DB_PATH, 'utf8');
     const data = JSON.parse(raw);
     
-    // Migração automática para adicionar chave de usuários se não existir
+    // Migração automática local
     if (!data.users || data.users.length === 0) {
       data.users = DEFAULT_STORE_DATA.users;
-      saveDatabase(data);
-      console.log('Migração: Adicionada tabela de usuários padrão com administrador.');
+      saveDatabaseLocal(data);
+      console.log('Migração Local: Adicionada tabela de usuários padrão com administrador.');
     }
     return data;
   } catch (e) {
@@ -136,19 +197,41 @@ function loadDatabase() {
   }
 }
 
-// Salva dados no db.json
-function saveDatabase(data) {
+// Salva dados localmente no arquivo db.json
+function saveDatabaseLocal(data) {
   try {
     fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
     return true;
   } catch (e) {
-    console.error('Erro ao salvar db.json:', e);
+    console.error('Erro ao salvar no arquivo db.json:', e.message);
     return false;
   }
 }
 
-// Função auxiliar para verificar credenciais via Basic Auth
-function isAuthenticated(req) {
+// Salva dados (Modo Híbrido)
+async function saveDatabase(data) {
+  if (mongoDb) {
+    try {
+      const collection = mongoDb.collection(COLLECTION_NAME);
+      const updateData = { ...data };
+      delete updateData._id; // Garante limpeza de ID antigo para evitar conflito no Atlas
+      
+      await collection.replaceOne(
+        { _id: DOCUMENT_ID },
+        { _id: DOCUMENT_ID, ...updateData },
+        { upsert: true }
+      );
+      return true;
+    } catch (e) {
+      console.error('Erro ao salvar no MongoDB Atlas:', e.message);
+      return false;
+    }
+  }
+  return saveDatabaseLocal(data);
+}
+
+// Função auxiliar para verificar credenciais via Basic Auth (Assíncrona)
+async function isAuthenticated(req) {
   const authHeader = req.headers['authorization'];
   if (!authHeader) return false;
   
@@ -157,7 +240,7 @@ function isAuthenticated(req) {
     const decoded = Buffer.from(token, 'base64').toString('utf8');
     const [username, password] = decoded.split(':');
     
-    const db = loadDatabase();
+    const db = await loadDatabase();
     const user = db.users.find(u => u.username === username && u.password === password);
     return user ? user : false;
   } catch (e) {
@@ -166,13 +249,13 @@ function isAuthenticated(req) {
 }
 
 // ROTA DE LOGIN: POST /api/login - Autentica usuário e retorna perfil básico
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ success: false, message: 'Usuário e senha são obrigatórios.' });
   }
 
-  const db = loadDatabase();
+  const db = await loadDatabase();
   const user = db.users.find(u => u.username === username && u.password === password);
   if (user) {
     res.json({
@@ -189,26 +272,26 @@ app.post('/api/login', (req, res) => {
 });
 
 // ROTA 1: GET STORE - Retorna todo o estado do CRM
-app.get('/api/store', (req, res) => {
-  const user = isAuthenticated(req);
+app.get('/api/store', async (req, res) => {
+  const user = await isAuthenticated(req);
   if (!user) {
     return res.status(401).json({ status: 'error', message: 'Não autorizado.' });
   }
-  const data = loadDatabase();
+  const data = await loadDatabase();
   res.json(data);
 });
 
 // ROTA 2: POST STORE - Atualiza o estado completo do CRM
-app.post('/api/store', (req, res) => {
-  const user = isAuthenticated(req);
+app.post('/api/store', async (req, res) => {
+  const user = await isAuthenticated(req);
   if (!user) {
     return res.status(401).json({ status: 'error', message: 'Não autorizado.' });
   }
-  const success = saveDatabase(req.body);
+  const success = await saveDatabase(req.body);
   if (success) {
     res.json({ status: 'ok', message: 'Dados salvos com sucesso.' });
   } else {
-    res.status(500).json({ status: 'error', message: 'Erro ao gravar arquivo db.json.' });
+    res.status(500).json({ status: 'error', message: 'Erro ao gravar banco de dados.' });
   }
 });
 
@@ -226,13 +309,12 @@ app.get('/api/webhook/whatsapp', (req, res) => {
   }
 });
 
-// ROTA 4: POST WEBHOOK - Recebe as notificações de mensagens enviadas por clientes
-app.post('/api/webhook/whatsapp', (req, res) => {
-console.log('POST WHATSAPP RECEBIDO');
-console.log(JSON.stringify(req.body, null, 2));  
+// ROTA 4: POST WEBHOOK - Recebe as notificações de mensagens enviadas por clientes (Assíncrona)
+app.post('/api/webhook/whatsapp', async (req, res) => {
+  console.log('POST WHATSAPP RECEBIDO');
+  console.log(JSON.stringify(req.body, null, 2));  
 
-
-const body = req.body;
+  const body = req.body;
 
   // Verifica se a estrutura é compatível com o payload do WhatsApp
   if (body.object === 'whatsapp_business_account' && body.entry && body.entry[0].changes && body.entry[0].changes[0].value) {
@@ -249,7 +331,7 @@ const body = req.body;
 
       // Se a mensagem contiver texto, criamos o Lead no banco
       if (messageText) {
-        const db = loadDatabase();
+        const db = await loadDatabase();
         
         // Tentamos mapear o interesse em algum veículo específico da base
         let matchedProduct = db.products.find(p => p.id === 'p_v_pontoon250') || db.products[0];
@@ -334,7 +416,7 @@ const body = req.body;
         };
         db.notifications.unshift(newNotif);
 
-        saveDatabase(db);
+        await saveDatabase(db);
         console.log(`Lead "${newLead.name}" criado com sucesso no banco de dados!`);
       }
     }
@@ -344,12 +426,19 @@ const body = req.body;
   res.status(200).send('EVENT_RECEIVED');
 });
 
-app.listen(PORT, () => {
-  // Inicializa o banco de dados e executa migrações na inicialização do servidor
-  loadDatabase();
-  console.log(`=======================================================`);
-  console.log(` Servidor CRM Náutico Premium rodando na porta ${PORT} `);
-  console.log(` Webhook do WhatsApp disponível em:                   `);
-  console.log(` http://localhost:${PORT}/api/webhook/whatsapp         `);
-  console.log(`=======================================================`);
-});
+// Inicialização Assíncrona do Servidor (Suporta conexão prévia com MongoDB)
+async function startServer() {
+  await connectToMongo();
+
+  app.listen(PORT, async () => {
+    // Inicializa o banco de dados e executa migrações/criação inicial
+    await loadDatabase();
+    console.log(`=======================================================`);
+    console.log(` Servidor CRM Náutico Premium rodando na porta ${PORT} `);
+    console.log(` Webhook do WhatsApp disponível em:                   `);
+    console.log(` http://localhost:${PORT}/api/webhook/whatsapp         `);
+    console.log(`=======================================================`);
+  });
+}
+
+startServer();
