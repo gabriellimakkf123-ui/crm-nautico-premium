@@ -168,7 +168,8 @@ app.get('/api/webhook/whatsapp', (req, res) => {
 
 // ROTA 4: POST WEBHOOK - Recebe as notificações de mensagens enviadas por clientes
 app.post('/api/webhook/whatsapp', (req, res) => {
-  const body = req.body;
+console.log('POST WHATSAPP RECEBIDO');
+console.log(JSON.stringify(req.body, null, 2));  const body = req.body;
 
   // Verifica se a estrutura é compatível com o payload do WhatsApp
   if (body.object === 'whatsapp_business_account' && body.entry && body.entry[0].changes && body.entry[0].changes[0].value) {
