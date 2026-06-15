@@ -485,13 +485,15 @@ app.get('/api/status', (req, res) => {
   } else if (mongoDb) {
     activeDb = 'MongoDB Atlas (Nuvem - Permanente)';
   }
+  const mongoStartChars = MONGODB_URI ? Array.from(MONGODB_URI.substring(0, 15)).map(c => ({ char: c, code: c.charCodeAt(0) })) : [];
   res.json({
     status: 'ok',
     database: activeDb,
     hasDatabaseUrl: !!DATABASE_URL,
     postgresError: pgError,
     hasMongoUri: !!MONGODB_URI,
-    mongoError: mongoError
+    mongoError: mongoError,
+    mongoStartChars: mongoStartChars
   });
 });
 
