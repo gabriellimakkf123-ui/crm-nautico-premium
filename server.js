@@ -3,11 +3,16 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { MongoClient } = require('mongodb');
+const { Client } = require('pg');
 
 const app = express();
 const PORT = 3000;
 const DB_PATH = path.join(__dirname, 'db.json');
 const VERIFY_TOKEN = 'crm_nautico_token'; // Token para validar o webhook no Meta Developers Portal
+
+// Configurações do Supabase (PostgreSQL)
+const DATABASE_URL = process.env.DATABASE_URL;
+let pgClient = null;
 
 // Configurações do MongoDB Atlas (Modo Híbrido)
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -15,6 +20,37 @@ let mongoClient = null;
 let mongoDb = null;
 const COLLECTION_NAME = 'crm_data';
 const DOCUMENT_ID = 'crm_master_data';
+
+async function connectToPostgres() {
+  if (!DATABASE_URL) {
+    return false;
+  }
+  try {
+    console.log('Tentando conectar ao Supabase (PostgreSQL)...');
+    pgClient = new Client({
+      connectionString: DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    });
+    await pgClient.connect();
+    console.log('Conectado ao Supabase (PostgreSQL) com sucesso!');
+    
+    // Cria a tabela de armazenamento se não existir
+    await pgClient.query(`
+      CREATE TABLE IF NOT EXISTS crm_storage (
+        id VARCHAR(50) PRIMARY KEY,
+        data JSONB NOT NULL
+      );
+    `);
+    
+    return true;
+  } catch (e) {
+    console.error('Falha ao conectar no Supabase. Erro:', e.message);
+    pgClient = null;
+    return false;
+  }
+}
 
 async function connectToMongo() {
   if (!MONGODB_URI) {
@@ -127,6 +163,38 @@ const DEFAULT_STORE_DATA = {
 
 // Carrega ou inicializa o banco de dados (Modo Híbrido)
 async function loadDatabase() {
+  if (pgClient) {
+    try {
+      const res = await pgClient.query('SELECT data FROM crm_storage WHERE id = $1', [DOCUMENT_ID]);
+      if (res.rows.length === 0) {
+        // Inicializa o Supabase com a massa de dados padrão
+        await pgClient.query('INSERT INTO crm_storage (id, data) VALUES ($1, $2)', [DOCUMENT_ID, DEFAULT_STORE_DATA]);
+        return DEFAULT_STORE_DATA;
+      }
+      
+      const data = res.rows[0].data;
+      
+      // Migração automática para adicionar chave de usuários/remover produtos no Supabase
+      let pgChanged = false;
+      if (!data.users || data.users.length === 0) {
+        data.users = DEFAULT_STORE_DATA.users;
+        pgChanged = true;
+      }
+      if (data.products && data.products.length > 0) {
+        data.products = [];
+        pgChanged = true;
+      }
+      if (pgChanged) {
+        await pgClient.query('UPDATE crm_storage SET data = $2 WHERE id = $1', [DOCUMENT_ID, data]);
+        console.log('Migração Supabase: Tabela de usuários/produtos atualizada.');
+      }
+      
+      return data;
+    } catch (e) {
+      console.error('Erro ao ler dados no Supabase. Usando fallback...', e.message);
+    }
+  }
+
   if (mongoDb) {
     try {
       const collection = mongoDb.collection(COLLECTION_NAME);
@@ -203,6 +271,24 @@ function saveDatabaseLocal(data) {
 
 // Salva dados (Modo Híbrido)
 async function saveDatabase(data) {
+  if (pgClient) {
+    try {
+      const updateData = { ...data };
+      delete updateData._id;
+      
+      await pgClient.query(`
+        INSERT INTO crm_storage (id, data)
+        VALUES ($1, $2)
+        ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data
+      `, [DOCUMENT_ID, updateData]);
+      
+      return true;
+    } catch (e) {
+      console.error('Erro ao salvar no Supabase:', e.message);
+      return false;
+    }
+  }
+
   if (mongoDb) {
     try {
       const collection = mongoDb.collection(COLLECTION_NAME);
@@ -389,15 +475,24 @@ app.post('/api/webhook/whatsapp', async (req, res) => {
 
 // ROTA DE STATUS: GET /api/status - Retorna o status de conexão com o banco de dados
 app.get('/api/status', (req, res) => {
+  let activeDb = 'Local db.json (Temporário - Sujeito a perdas)';
+  if (pgClient) {
+    activeDb = 'Supabase (Nuvem - Permanente)';
+  } else if (mongoDb) {
+    activeDb = 'MongoDB Atlas (Nuvem - Permanente)';
+  }
   res.json({
     status: 'ok',
-    database: mongoDb ? 'MongoDB Atlas (Nuvem - Permanente)' : 'Local db.json (Temporário - Sujeito a perdas)'
+    database: activeDb
   });
 });
 
-// Inicialização Assíncrona do Servidor (Suporta conexão prévia com MongoDB)
+// Inicialização Assíncrona do Servidor (Suporta conexão prévia com MongoDB/Postgres)
 async function startServer() {
-  await connectToMongo();
+  const isPostgres = await connectToPostgres();
+  if (!isPostgres) {
+    await connectToMongo();
+  }
 
   app.listen(PORT, async () => {
     // Inicializa o banco de dados e executa migrações/criação inicial
