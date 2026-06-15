@@ -11,12 +11,12 @@ const DB_PATH = path.join(__dirname, 'db.json');
 const VERIFY_TOKEN = 'crm_nautico_token'; // Token para validar o webhook no Meta Developers Portal
 
 // Configurações do Supabase (PostgreSQL)
-const DATABASE_URL = process.env.DATABASE_URL;
+const DATABASE_URL = process.env.DATABASE_URL ? process.env.DATABASE_URL.trim() : undefined;
 let pgClient = null;
 let pgError = null;
 
 // Configurações do MongoDB Atlas (Modo Híbrido)
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI ? process.env.MONGODB_URI.trim() : undefined;
 let mongoClient = null;
 let mongoDb = null;
 let mongoError = null;
