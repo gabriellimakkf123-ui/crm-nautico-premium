@@ -13,6 +13,7 @@ const VERIFY_TOKEN = 'crm_nautico_token'; // Token para validar o webhook no Met
 // Configurações do Supabase (PostgreSQL)
 const DATABASE_URL = process.env.DATABASE_URL;
 let pgClient = null;
+let pgError = null;
 
 // Configurações do MongoDB Atlas (Modo Híbrido)
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -47,6 +48,7 @@ async function connectToPostgres() {
     return true;
   } catch (e) {
     console.error('Falha ao conectar no Supabase. Erro:', e.message);
+    pgError = e.message;
     pgClient = null;
     return false;
   }
@@ -483,7 +485,9 @@ app.get('/api/status', (req, res) => {
   }
   res.json({
     status: 'ok',
-    database: activeDb
+    database: activeDb,
+    hasDatabaseUrl: !!DATABASE_URL,
+    postgresError: pgError
   });
 });
 
