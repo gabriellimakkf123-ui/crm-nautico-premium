@@ -387,6 +387,14 @@ app.post('/api/webhook/whatsapp', async (req, res) => {
   res.status(200).send('EVENT_RECEIVED');
 });
 
+// ROTA DE STATUS: GET /api/status - Retorna o status de conexão com o banco de dados
+app.get('/api/status', (req, res) => {
+  res.json({
+    status: 'ok',
+    database: mongoDb ? 'MongoDB Atlas (Nuvem - Permanente)' : 'Local db.json (Temporário - Sujeito a perdas)'
+  });
+});
+
 // Inicialização Assíncrona do Servidor (Suporta conexão prévia com MongoDB)
 async function startServer() {
   await connectToMongo();
