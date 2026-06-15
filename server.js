@@ -19,6 +19,7 @@ let pgError = null;
 const MONGODB_URI = process.env.MONGODB_URI;
 let mongoClient = null;
 let mongoDb = null;
+let mongoError = null;
 const COLLECTION_NAME = 'crm_data';
 const DOCUMENT_ID = 'crm_master_data';
 
@@ -75,6 +76,7 @@ async function connectToMongo() {
     return true;
   } catch (e) {
     console.error('Falha ao conectar no MongoDB Atlas. Mantendo modo local (db.json). Erro:', e.message);
+    mongoError = e.message;
     mongoClient = null;
     mongoDb = null;
     return false;
@@ -487,7 +489,9 @@ app.get('/api/status', (req, res) => {
     status: 'ok',
     database: activeDb,
     hasDatabaseUrl: !!DATABASE_URL,
-    postgresError: pgError
+    postgresError: pgError,
+    hasMongoUri: !!MONGODB_URI,
+    mongoError: mongoError
   });
 });
 
